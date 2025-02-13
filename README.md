@@ -7,10 +7,10 @@ This repository provides essential scripts and data for students to practice and
 ## Repository Structure
 The repository is organized into the following folders:
 
-- ** Raw-data/** → Contains datasets used for analysis in assignments and practical exercises.
-- ** R-scripts/** → Includes R scripts for solving dynamical systems and generating visualizations.
-- ** Matlab-scripts/** → Contains MATLAB implementations for numerical simulations.
-- ** Assignment_sheets/** → PDF or Markdown files with problem sets and exercises.
+- `Raw-data/` → Contains datasets used for analysis in assignments and practical exercises.
+- `R-scripts/` → Includes R scripts for solving dynamical systems and generating visualizations.
+- `Matlab-scripts/` → Contains MATLAB implementations for numerical simulations.
+- `Assignment_sheets/` → PDF or Markdown files with problem sets and exercises.
 
 ---
 
