@@ -1,0 +1,11 @@
+clear all
+mu=3.75;
+x(1)=0.3;
+N=1000;
+for n=2:N
+    x(n)=mu*x(n-1)*(1-x(n-1));
+end
+plot(x,'*')
+hold on
+plot(x)
+hold off

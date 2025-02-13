@@ -1,0 +1,35 @@
+%%%%%%%%%%%%%%%%%%%%%%% First example: dx/dt=sin(x)*exp(-x)
+clear all
+x=linspace(0,10,100);
+f=sin(x).*exp(-0.3*x); %
+plot(x,f)
+grid on
+% Clearly, the fixed points are the zeroes of sin(x) x=n*pi n=0,1,2,3...
+% Acording to the criterion of the first derivative, x are unstable if x=2n*pi n=0,1,2...
+% and x are stable filxed points for x=(2n-1)pi n=1,2,3...
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Second example: dx/dt=exp(x)-10cos(x)
+% The fixed points meet the equation exp(x)=10cos(x)
+syms x
+f=exp(x)-10*cos(x);
+Sx=solve(f==0);
+solx=eval(Sx);
+%
+z=solx;
+fp=exp(z)+10*sin(z); %First derivative of the flow
+% Since fp>0 for the fixed point, we conclude thet it is an unstable FP
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Thirth example: dx/dt=1+0.5*cos(x)
+% The fixed points meet the equation cos(x)=-2 NO SOLUTION!!!
+% 
+clear all
+x=linspace(-2*pi,2*pi,100);
+f=1+0.5*cos(x); %
+plot(x,f)
+axis([-2*pi 2*pi 0 2]);
+grid on
+
+
+
+
+

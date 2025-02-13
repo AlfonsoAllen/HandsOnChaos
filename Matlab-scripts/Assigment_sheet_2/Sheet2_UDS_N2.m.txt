@@ -1,0 +1,63 @@
+% Let the 1D dysn-sys dx/dt=3x-x^3  ,
+%a) Find all the fixed points by using the symbolic module of MatLab.
+%b) Study the stability of all the fixed points.
+%c) Solve numerically with x(0)=5. Plot the trajectory for t large.
+%d) Try to anímate the solution in c)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+clear all
+%%%%%% a)Using the sysmbolic module
+syms x
+f=3*x-x^3;
+[Sx]=solve(f==0);
+solx=eval(Sx)
+% Made by hand, x(x^2-3)=0, x=0, and x=+-sqrt(3)
+pause
+%%%% Graphically
+% clear all
+% x=linspace(-3,3,100);
+% v=3*x-x.^3;
+% plot(x,v)
+% grid on
+% pause
+%%%%%%% b)and c)Stability of the fixed points: We proceed as the prior exercice
+clear all
+ti=0; tf=3; N=50;
+t=linspace(ti,tf,N);
+Dt=(tf-ti)/(N-1);
+axis([ti tf -3 3]);
+hold on
+%ini=[-2,-1.1,0,0.9,1.3];
+ini=linspace(-2,2,10);
+for j=1:length(ini)
+    x(1)=ini(j);
+    for i=1:length(t)-1
+        x(i+1)=x(i)+Dt*(3*x(i)-x(i)^3);
+    end
+    plot(t,x)
+end
+grid on
+hold off
+%
+%%%%%%% d) Making an animation
+% Once obtained x(i) from the prior item, we plot 
+ti=0; tf=3; N=50;
+t=linspace(ti,tf,N);
+Dt=(tf-ti)/(N-1);
+axis([ti tf -3 3]);
+ini=linspace(-2,2,10);
+hold on
+for l=1:length(ini)
+    x(1)=ini(l);
+    for i=1:length(t)-1
+        x(i+1)=x(i)+Dt*(3*x(i)-x(i)^3);
+    end
+    for j=1:50
+        plot(t(1:j),x(1:j))
+        %plot(x(j),f(j),'k*')
+        grid on
+        axis([ti tf -3 3]);
+        pause(0.05);
+    end
+end
+
+

@@ -1,0 +1,24 @@
+% Let's try to solve the dyn-sys dx/dt=x^2-1 with -1<x(0)<1
+%
+% The fixed points of the system are x=+-1 
+% We plot some trajectories starting from x(0)as said in the statement of
+% the problem. We use the FDM method
+clear all
+ti=0; tf=3; N=50;
+t=linspace(ti,tf,N);
+Dt=(tf-ti)/(N-1);
+axis([ti tf -2 2]);
+hold on
+%ini=[-2,-1.1,0,0.9,1.3];
+ini=linspace(-2,2,10);
+for j=1:length(ini)
+    x(1)=ini(j);
+    for i=1:length(t)-1
+        x(i+1)=x(i)+Dt*(x(i)^2-1);
+    end
+    plot(t,x)
+end
+grid on
+hold off
+
+

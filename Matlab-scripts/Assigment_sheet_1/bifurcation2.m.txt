@@ -1,0 +1,34 @@
+% Bifurcation diagram 
+par=-1:0.01:1;
+p=length(par);
+%tspam=[0,10];
+tspam=0:0.1:100;
+ll=length(tspam);
+%x0=0.001:0.05:1;
+x0=[0.01,1];
+q=length(x0);
+%x=zeros(1,1);
+%x0=0.01;
+%f=@(t,x)pa*x+x^3-x^5;
+for r=1:p
+    clear x
+    for s=1:q
+        r,s
+        %clear x;
+        f=@(t,x)par(r)*x+x^3-x^5;
+        [t,x]=ode45(f,tspam,x0(s));
+        %ll=length(x);
+        xx(r,s,1:ll)=x;
+        %     for j=ll-10:ll
+        %         scatter(par,x(j),'.')
+        %         hold on
+        %     end
+        %     hold on
+    end
+ end
+for k=1:q
+    for j=ll-30:ll
+        scatter(par,xx(:,k,j),'k.')
+        hold on
+    end
+end

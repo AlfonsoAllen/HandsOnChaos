@@ -1,0 +1,29 @@
+% An analytical solution to the continuous logistic flow
+%
+% From dx/dt=mux(1-x) we get dx/(x(1-x)=mu*dt and the left hand is
+% decomposed 1/x(1-x)=1/x+1/(1-x). Thus after integrating we get
+% log(x)-log(1-x)+C=log(x/(1-x))+c. So, Cx/(1-x)=exp(mu*t) and finally the
+% analytical solution is x(t)=exp(mu*t)/(1+exp(mu*t)). Here, C is the
+% integration constant which can be found by the initial condition x0
+%
+clear all
+mu=2;
+x0=0.1;
+A=x0/(1-x0);
+t=linspace(0,5,50);
+x=A*exp(mu*t)./(1+A*exp(mu*t));
+plot(t,x)
+grid on
+%
+% Solving from ode45 command
+%
+hold on
+mu=2;
+ti=0;
+tf=5;
+x0=0.1;
+tspam=linspace(ti,tf,50);
+%tspam=[ti,tf]; %Uses the internal step
+f=@(t,x) mu.*x.*(1-x);
+[t,x]=ode45(f,tspam,x0);
+plot(t,x,'*')

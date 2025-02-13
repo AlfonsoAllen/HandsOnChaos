@@ -1,0 +1,20 @@
+% Bifurcation diagram 
+par=1:0.005:7;
+p=length(par);
+time=0:500;
+t=length(time);
+x=zeros(t,p);
+x(1,:)=0.99; %Initial condition
+for r=1:p
+    for tm=1:t
+%        x(tm+1,r)=x(tm,r)*exp(par(r)*(1-x(tm,r)));
+        %x(tm+1,r)=par(r)*x(tm,r)*(1-x(tm,r));
+        %x(tm+1,r)=par(r)*x(tm,r)*(1-x(tm,r))+x(tm,r)^3;
+        x(tm+1,r)=par(r)*x(tm,r)*(1+x(tm,r))-x(tm,r)^3;
+end
+end
+for n=100:500
+    scatter(par,x(n,:),'.')
+    hold on
+end
+    

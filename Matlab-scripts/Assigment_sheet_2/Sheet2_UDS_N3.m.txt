@@ -1,0 +1,30 @@
+% We find first the fixed points:
+% mu*xP(1-x)=0 which gives x=0 and x=1. No dependence on mu is found.
+% We proceed as the previous exercice
+%
+%%%%%%% b)and c)Stability of the fixed points: We proceed as the prior exercice
+clear all
+mu=0.5;
+z=linspace(-0.5,1.5,50);
+f=mu.*z.*(1-z);
+plot(z,f)
+grid on
+pause
+%%%%
+clear all
+mu=0.5;
+ti=0; tf=3; N=50;
+t=linspace(ti,tf,N);
+Dt=(tf-ti)/(N-1);
+axis([ti tf -0.5 1.5]);
+hold on
+ini=linspace(-0.5,1.5,10);
+for j=1:length(ini)
+    x(1)=ini(j);
+    for i=1:length(t)-1
+        x(i+1)=x(i)+Dt*mu*x(i)*(1-x(i));
+    end
+    plot(t,x)
+end
+grid on
+hold off

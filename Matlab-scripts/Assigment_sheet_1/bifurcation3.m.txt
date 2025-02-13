@@ -1,0 +1,21 @@
+% Bifurcation diagram for numerical treatment of continuous dynamical
+% systems
+par=-1:0.005:1;
+p=length(par);
+time=0:100000;
+t=length(time);
+x=zeros(t,p);
+x(1,:)=0.1; %Initial condition
+deltat=0.001;
+for r=1:p
+    for tm=1:t
+        x(tm+1,r)=x(tm,r)+deltat*par(r)*x(tm,r)*(1-x(tm,r));
+        %x(tm+1,r)=par(r)*x(tm,r)*(1-x(tm,r))+x(tm,r)^3;
+        %x(tm+1,r)=par(r)*x(tm,r)*(1+x(tm,r))-x(tm,r)^3;
+end
+end
+for n=99900:100000
+    scatter(par,x(n,:),'.')
+    hold on
+end
+    

@@ -1,0 +1,24 @@
+% (Strogatz Example 2.2.2) Consider the electrical circuit composed by a 
+% linear resistor R in series with a capacitor C and a battery of constant 
+%voltage V. Let Q(t) denote the charge of the capacitor at time t>=0. 
+% If the capacitor does not have any charge initially, graph Q(t). What if 
+% the linear resistor is replaced by a non-linear one in which the voltage 
+%across the resistor is a function of the electric current?.
+%
+% The equation meet by the capacitor charge is dQ/dt=V/R-Q/RC. We solve
+% analytically first
+% integral(dQ/(V/R-Q/RC)=t, -RClog(V/R-Q/RC)+Konstant=t, and Q(t=0)=0,
+% Thus, Konstant=-CRlog/V/R). After some algebra we get
+% Q(t)=VC(1-exp(-t/RC)) and I=V/R*exp(-t/RC)
+V=1;
+R=1;
+C=1;
+t=linspace(0,5,20);
+Q=V*C*(1-exp(-t/R/C));
+plot(t,Q)
+grid on
+%%%%%%%%
+% We also solve it numerically 
+
+
+
