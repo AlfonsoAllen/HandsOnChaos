@@ -70,6 +70,7 @@ df_a <- as.data.frame(solution_a)
 # Plot Case A
 ggplot(df_a, aes(x = time, y = x)) +
   geom_line(color = "blue", size = 1) +
+  geom_hline(yintercept = -1, linetype = "dashed", color = "red") + # Stable value 
   labs(title = "Case A: x(0) < -1", x = "Time (t)", y = "x(t)") +
   theme_bw()
 
@@ -81,6 +82,7 @@ png("Figures_videos/Assignment_sheet_2/Example_1_case_a.png",
 ggplot(df_a, aes(x = time, y = x)) +
   geom_line(color = "blue", size = 1) +
   labs(title = "Case A: x(0) < -1", x = "Time (t)", y = "x(t)") +
+  geom_hline(yintercept = -1, linetype = "dashed", color = "red") + # Stable value 
   theme_bw()
 
 dev.off()
