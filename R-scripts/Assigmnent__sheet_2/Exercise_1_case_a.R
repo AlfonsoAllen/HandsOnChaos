@@ -3,8 +3,7 @@ library(deSolve)
 library(ggplot2)
 
 
-#----
-# Plot the x_dot vs x
+#---- Step 1: Plot the x_dot vs x
 
 # Define the function dx/dt = x^2 - 1
 dx_dt <- function(x) {
@@ -42,14 +41,27 @@ ggplot(data, aes(x = x, y = dx_dt)) +
 
 dev.off()
 
-#----
-# Find all the roots of the polynomial x^2 - 1
+#---- Step 2: Find all the roots of the polynomial x^2 - 1
 
-stationary_points <- polyroot(c(-1,0,1))
-stationary_points
+fixed_points <- polyroot(c(-1,0,1))
+fixed_points
 
-#----
-# Solve the differential equation
+
+# ---- Step 3: Stability Analysis ----
+
+f_prime <- function(x){2*x}  # Compute derivative f'(x)
+
+stability_analysis <- function(fixed_points) {
+  f_prime4fixed_points <- f_prime(fixed_points)
+  stability <- ifelse(Re(f_prime4fixed_points) < 0, "Stable", "Unstable")  # Stability condition
+  return(data.frame(Fixed_Point = fixed_points, Stability = stability))
+}
+
+stability_info <- stability_analysis(fixed_points)
+stability_info
+
+
+# ---- Step 4: Solve the differential equation
 # Define the differential equation dx/dt = x^2 - 1
 dynamical_system <- function(t, state, parameters) {
   x <- state[1]
@@ -67,7 +79,7 @@ solution_a <- ode(y = initial_state_a, times = time, func = dynamical_system, pa
 # Convert to a data frame for ggplot2
 df_a <- as.data.frame(solution_a)
 
-# Plot Case A
+# ---- Step 5: Plot the time evolution of x for case A
 ggplot(df_a, aes(x = time, y = x)) +
   geom_line(color = "blue", size = 1) +
   geom_hline(yintercept = -1, linetype = "dashed", color = "red") + # Stable value 
