@@ -26,11 +26,25 @@ lyap_values <- sapply(mu_values, lyapunov_logistic)
 # Plot Lyapunov exponent vs. r
 df <- data.frame(mu = mu_values, lambda = lyap_values)
 
+
 ggplot(df, aes(x = mu, y = lambda)) +
   geom_line(color = "blue") +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
   xlab("mu") +
   ylab("Lyapunov Exponent") +
-  ggtitle("Lyapunov Exponent for the logistic map") +
+  ggtitle("Lyapunov exponent (lambda) for the logistic map") +
   theme_minimal()
 
+png("Figures_videos/Assignment_sheet_1/lyapunov_exp_logistic_map.png",
+    width = 500*4, # The width of the plot in inches
+    height = 520*4, res=300)
+
+ggplot(df, aes(x = mu, y = lambda)) +
+  geom_line(color = "blue") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+  xlab("mu") +
+  ylab("Lyapunov Exponent") +
+  ggtitle("Lyapunov exponent for the logistic map, lambda") +
+  theme_minimal()
+
+dev.off()
