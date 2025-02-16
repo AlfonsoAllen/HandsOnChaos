@@ -52,11 +52,15 @@ print(fixed_point_0)  # Should return approximately 0 (first root)
 fixed_point_1 <- uniroot(dx_dt, interval = c(-2, 0))$root
 print(fixed_point_1)  # Should return approximately pi (second root)
 
-some_fixed_points <- c(fixed_point_0, fixed_point_1, -0.5*pi*c(2:10))
+other_appr_fixed_points <- -pi*c(1:10) - 0.5*pi
+print(other_appr_fixed_points/pi)
+
+some_fixed_points <- c(fixed_point_0, fixed_point_1, other_appr_fixed_points)
 
 # ---- Step 3: Stability Analysis ----
 
-f_prime <- function(x){exp(-x) + 10*sin(x)}  # Compute derivative f'(x)
+f_prime <- function(x){(exp(x) + 10*sin(x))}  # Compute derivative f'(x)
+f_prime(some_fixed_points)
 
 stability_analysis <- function(fixed_points) {
   f_prime4fixed_points <- f_prime(fixed_points)
