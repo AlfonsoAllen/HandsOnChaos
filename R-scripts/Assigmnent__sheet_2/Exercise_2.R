@@ -35,7 +35,7 @@ time <- seq(0, 10, by = 0.01)  # From t = 0 to t = 10
 initial_state <- c(x = 5)
 
 # Solve numerically
-solution <- ode(y = initial_state, times = time, func = dynamical_system, parms = NULL)
+solution <- ode(y = initial_state, times = time, func = dynamical_system, parms = NULL, method = "ode45")
 
 # Convert to a data frame for plotting
 df_solution <- as.data.frame(solution)
