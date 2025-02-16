@@ -40,8 +40,8 @@ png("Figures_videos/Assignment_sheet_1/bifurcation_logistic_map.png",
 # Plot the bifurcation diagram
 ggplot(bif_data, aes(x = mu, y = x)) +
   geom_point(color = "black", alpha = 0.2, size = 0.1) +
-  labs(title = "Bifurcation Diagram of the Logistic Map",
-       x = "mu (Growth Rate Parameter)",
+  labs(title = "Bifurcation diagram of the logistic map",
+       x = "mu (growth rate parameter)",
        y = "Stable Values of x") +
   theme_minimal()
 
@@ -60,8 +60,8 @@ png("Figures_videos/Assignment_sheet_1/bifurcation_logistic_map_2period_detail.p
 
 ggplot(bif_data2, aes(x = mu, y = x)) +
   geom_point(color = "black", alpha = 0.2, size = 0.1) +
-  labs(title = "Bifurcation Diagram of the Logistic Map\nshowing the 2-period and higher-period regions",
-       x = "mu (Growth Rate Parameter)",
+  labs(title = "Bifurcation diagram of the logistic map\nshowing the 2-period and higher-period regions",
+       x = "mu (growth rate parameter)",
        y = "Stable Values of x") +
   scale_x_log10() + 
   scale_y_log10() +
@@ -80,8 +80,8 @@ png("Figures_videos/Assignment_sheet_1/bifurcation_logistic_map_4period_detail.p
 
 ggplot(bif_data3, aes(x = mu, y = x)) +
   geom_point(color = "black", alpha = 0.2, size = 0.1) +
-  labs(title = "Bifurcation Diagram of the Logistic Map\nshowing to the 4-period and higher-period regions",
-       x = "mu (Growth Rate Parameter)",
+  labs(title = "Bifurcation diagram of the logistic map\nshowing to the 4-period and higher-period regions",
+       x = "mu (growth rate parameter)",
        y = "Stable Values of x") +
   scale_x_log10() + 
   scale_y_log10() +
