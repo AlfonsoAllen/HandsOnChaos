@@ -53,6 +53,7 @@ $$\dot{x} = 3x - x^3$$
 The Logistic Flow is defined as:
 
 $$\dot{x} = \mu x (1 - x)$$
+for \( \mu > 0 \).
 
 - Find **fixed points** as a function of \( \mu \).
 - Perform a **stability analysis**.
@@ -85,5 +86,6 @@ Consider an **electrical circuit** with a **linear resistor \( R \)** in series 
 - Plot \( Q(t) \) when the capacitor starts with no charge.
 
 ::: {.info}
-**Question:** What changes if the resistor is nonlinear, that is, if the voltage across the resistor depends on the electric current?
+**Question:** What changes if the resistor is nonlinear, that is, if the voltage across the resistor depends on the electric current? Try the relation:
+$$V(I) = R \tanh(I)$$
 :::
