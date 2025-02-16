@@ -43,7 +43,7 @@ cobweb_plot <- function(mu, x0 = 0.2, n_iter = 50) {
 cobweb_plot(mu = 0.5, x0 = 0.2, n_iter = 1500)
 
 # Code to save the above figure
-png("Figures_videos/cobweb_plot_logistic_map_mu_0p5.png",
+png("Figures_videos/Assignment_sheet_1/cobweb_plot_logistic_map_mu_0p5.png",
     width = 500*4, # The width of the plot in inches
     height = 520*4, res=300)
 
@@ -52,7 +52,7 @@ cobweb_plot(mu = 0.5, x0 = 0.2, n_iter = 1500)
 dev.off()
 
 # Example: Plot for mu = 1.0
-png("Figures_videos/cobweb_plot_logistic_map_mu_1p0.png",
+png("Figures_videos/Assignment_sheet_1/cobweb_plot_logistic_map_mu_1p0.png",
     width = 500*4, # The width of the plot in inches
     height = 520*4, res=300)
 
@@ -62,7 +62,7 @@ dev.off()
 
 
 # Example: Plot for mu = 1.5
-png("Figures_videos/cobweb_plot_logistic_map_mu_1p5.png",
+png("Figures_videos/Assignment_sheet_1/cobweb_plot_logistic_map_mu_1p5.png",
     width = 500*4, # The width of the plot in inches
     height = 520*4, res=300)
 
@@ -71,7 +71,7 @@ cobweb_plot(mu = 1.5, x0 = 0.25, n_iter = 150)
 dev.off()
 
 # Example: Plot for mu = 3.2
-png("Figures_videos/cobweb_plot_logistic_map_mu_3p2.png",
+png("Figures_videos/Assignment_sheet_1/cobweb_plot_logistic_map_mu_3p2.png",
     width = 500*4, # The width of the plot in inches
     height = 520*4, res=300)
 
@@ -80,7 +80,7 @@ cobweb_plot(mu = 3.2, x0 = 0.25, n_iter = 1500)
 dev.off()
 
 # Example: Plot for mu = 3.7
-png("Figures_videos/cobweb_plot_logistic_map_mu_3p7.png",
+png("Figures_videos/Assignment_sheet_1/cobweb_plot_logistic_map_mu_3p7.png",
 width = 500*4, # The width of the plot in inches
 height = 520*4, res=300)
 

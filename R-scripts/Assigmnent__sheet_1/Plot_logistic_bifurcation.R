@@ -33,7 +33,7 @@ generate_bifurcation <- function(mu_min, mu_max, mu_steps, x0 = 0.5, n_iter = 10
 bif_data <- generate_bifurcation(mu_min = 2.5, mu_max = 4, mu_steps = 500)
 
 
-png("Figures_videos/bifurcation_logistic_map.png",
+png("Figures_videos/Assignment_sheet_1/bifurcation_logistic_map.png",
     width = 500*4, # The width of the plot in inches
     height = 520*4, res=300)
 
@@ -54,7 +54,7 @@ bif_data2 <- generate_bifurcation(mu_min = 3, mu_max = 3.57, mu_steps = 500)
 
 # Plot and save the bifurcation diagram
 
-png("Figures_videos/bifurcation_logistic_map_2period_detail.png",
+png("Figures_videos/Assignment_sheet_1/bifurcation_logistic_map_2period_detail.png",
     width = 500*4, # The width of the plot in inches
     height = 520*4, res=300)
 
