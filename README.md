@@ -11,6 +11,7 @@ The repository is organized into the following folders:
 - `R-scripts/` → Includes R scripts for solving dynamical systems and generating visualizations.
 - `Matlab-scripts/` → Contains MATLAB implementations for numerical simulations.
 - `Assignment_sheets/` → PDF or Markdown files with problem sets and exercises.
+- `Figures_videos/` → Stores visualizations generated from the R-scripts.
 
 ---
 
