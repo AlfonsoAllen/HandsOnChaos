@@ -47,10 +47,13 @@ ggplot(data, aes(x = Q, y = dQ_dt)) +
 dev.off()
 
 
-
-
 # Define the differential equation dQ/dt = arctanh(V/R - Q/RC)
 dQ_dt <- function(t, Q, params) {
+  
+  R <- parameters["R"]
+  C <- parameters["C"]
+  V <- parameters["V"]
+  
   dQdt <- atanh(V / R - Q / (R * C))  # Compute derivative
   list(dQdt)
 }
@@ -58,11 +61,14 @@ dQ_dt <- function(t, Q, params) {
 # Initial condition (capacitor starts with no charge)
 Q0 <- 0
 
+# Set parameters and initial conditions
+parameters <- c(R = R, C = C, V = V)
+
 # Time sequence
 times <- seq(0, t_max, by = 0.1)
 
 # Solve ODE
-solution <- ode(y = Q0, times = times, func = dQ_dt, parms = NULL)
+solution <- ode(y = Q0, times = times, func = dQ_dt, parms = parameters)
 
 # Convert solution to dataframe
 solution_df <- as.data.frame(solution)
