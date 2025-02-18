@@ -47,10 +47,10 @@ dev.off()
 
 # Find a root in a given interval (e.g., near x = 0)
 fixed_point_0 <- uniroot(dx_dt, interval = c(0, 2))$root
-print(fixed_point_0)  # Should return approximately 0 (first root)
+print(fixed_point_0)
 
 fixed_point_1 <- uniroot(dx_dt, interval = c(-2, 0))$root
-print(fixed_point_1)  # Should return approximately pi (second root)
+print(fixed_point_1)
 
 other_appr_fixed_points <- -pi*c(1:10) - 0.5*pi
 print(other_appr_fixed_points/pi)
