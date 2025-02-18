@@ -349,7 +349,9 @@ print(fixed_points)</code></pre>
 <pre class="r"><code>x_values &lt;- seq(-2, 2, length.out = 100)
 y_values &lt;- x_values^2 - 1
 
-ggplot(data.frame(x = x_values, y = y_values), aes(x = x, y = y)) +
+polynomial_curve_df &lt;- data.frame(x = x_values, y = y_values)
+
+ggplot(data = polynomial_curve_df, aes(x = x, y = y)) +
   geom_line(color = &quot;blue&quot;) +
   geom_point(data = data.frame(x = Re(fixed_points), y = 0), aes(x = x, y = y), color = &quot;red&quot;, size = 3) +
   xlab(&quot;x&quot;) +
@@ -377,7 +379,9 @@ print(fixed_point_0)</code></pre>
 <pre class="r"><code>x_values &lt;- seq(-2, 3, length.out = 100)
 y_values &lt;- exp(x_values) - 10 * cos(x_values)
 
-ggplot(data.frame(x = x_values, y = y_values), aes(x = x, y = y)) +
+non_polynomial_curve_df &lt;- data.frame(x = x_values, y = y_values) 
+
+ggplot(data = non_polynomial_curve_df, aes(x = x, y = y)) +
   geom_line(color = &quot;blue&quot;) +
   geom_hline(yintercept = 0, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +
   geom_point(aes(x = fixed_point_0, y = 0), color = &quot;red&quot;, size = 3) +
