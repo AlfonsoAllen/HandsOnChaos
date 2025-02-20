@@ -1,0 +1,250 @@
+---
+title: "2D-Continuous Dynamical Systems (Assignment Sheet 4)"
+subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETSIDI, UPM)"
+author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+## Introduction: Example of a 2D continuous dynamical system
+
+Before starting the exercises, let's analyze a simple **2D continuous dynamical system** and learn how to:
+
+- Solve it numerically using `ode45`
+- Visualize its trajectories in **phase space** using `ggquiver`
+
+Consider the system:
+
+\[
+\dot{x} = y \\
+\dot{y} = -p x
+\]
+
+which describes a **harmonic oscillator** with a parameter \( p \) controlling the oscillation frequency. To solve and visualize this system in R, follow these steps:
+
+1. **Load required libraries:**
+   ```{r}
+   library(deSolve)
+   library(ggplot2)
+   library(ggquiver)
+   ```
+
+2. **Define the system of ODEs with a parameter:**
+   ```{r}
+   harmonic_oscillator <- function(t, state, parameters) {
+     x <- state[1]
+     y <- state[2]
+     p <- parameters["p"]
+     
+     dxdt <- y
+     dydt <- -p * x
+     
+     list(c(dxdt, dydt))
+   }
+   ```
+
+3. **Solve the system using `ode45` with different initial conditions:**
+   ```{r}
+   parameters <- c(p = 1)  # Set parameter p
+   initial_state1 <- c(x = 1, y = 0)  # First initial condition
+   initial_state2 <- c(x = -1, y = 1)  # Second initial condition
+   times <- seq(0, 10, by = 0.1)
+   
+   solution1 <- ode(y = initial_state1, times = times, 
+                    func = harmonic_oscillator, 
+                    parms = parameters, method = "ode45")
+   solution2 <- ode(y = initial_state2, times = times, 
+                    func = harmonic_oscillator, 
+                    parms = parameters, method = "ode45")
+   
+   solution_df1 <- as.data.frame(solution1)
+   solution_df2 <- as.data.frame(solution2)
+   ```
+
+4. **Plot the phase space with two orbits using `ggplot2`:**
+   ```{r}
+   ggplot() +
+     geom_path(data = solution_df1, aes(x = x, y = y), color = "blue") +
+     geom_path(data = solution_df2, aes(x = x, y = y), color = "black") +
+     xlab("x") +
+     ylab("y") +
+     ggtitle("Phase space of a simple harmonic oscillator with two orbits") +
+     theme_bw()
+   ```
+
+5. **Visualizing the vector field with `ggquiver` along with the orbits:**
+   ```{r}
+   grid <- expand.grid(x = seq(-2, 2, length.out = 20), y = seq(-2, 2, length.out = 20))
+   p_value <- 1
+   grid$dx <- grid$y
+   grid$dy <- -p_value * grid$x
+   
+   ggplot() +
+     geom_quiver(data = grid, aes(x = x, y = y, u = dx, v = dy), color = "red", scale = 0.2) +
+     geom_path(data = solution_df1, aes(x = x, y = y), color = "blue") +
+     geom_path(data = solution_df2, aes(x = x, y = y), color = "black") +
+     xlab("x") +
+     ylab("y") +
+     ggtitle("Vector field and orbits of the harmonic oscillator") +
+     theme_bw()
+   ```
+
+---
+
+## Exercise 1: Solving a linear system with `ode45`
+
+Using the `ode45` command, solve the linear system:
+
+\[
+\dot{x} = -a x \\
+\dot{y} = a x - b y
+\]
+
+for \( a = 2 \), \( b = 3 \), and initial conditions \( x(0) = 1 \), \( y(0) = 1 \). Try different parameter values and initial conditions. Plot the **phase space trajectory**.
+
+---
+
+## Exercise 2: Harmonic oscillator
+
+Consider the harmonic oscillator:
+
+\[
+\ddot{x} + \omega_0^2 x = 0
+\]
+
+with initial conditions \( x(0) = A \), \( \dot{x}(0) = 0 \), where \( \omega_0^2 = k/m \), with \( k \) as the spring constant and \( m \) the mass.
+
+- Rewrite the system as a **2D continuous dynamical system** in terms of \( x_1 = x \) and \( x_2 = \dot{x} \).
+- Use `ggquiver` to **sketch the phase space**.
+- Find the **fixed points**.
+- Solve using `ode45` and **plot the trajectories** in phase space for different values of \( A \).
+
+---
+
+## Exercise 3: Non-linear pendulum
+
+The non-linear pendulum equation is:
+
+\[
+\ddot{x} + \omega_0^2 \sin(x) = 0
+\]
+
+where \( \omega_0^2 = g/L \), with \( g \) as the gravity acceleration and \( L \) as the length of the rope. The variable \( x \) represents the **angle with the vertical**.
+
+Perform the **same calculations** as in Exercise 2 (2D system, phase space, fixed points, numerical solution, and trajectory plots).
+
+---
+
+## Exercise 4: Damped oscillator
+
+Consider the damped oscillator:
+
+\[
+\ddot{x} + 2\gamma \dot{x} + \omega_0^2 x = 0
+\]
+
+with initial conditions \( x(0) = A \), \( \dot{x}(0) = 0 \).
+
+- Rewrite as a **2D continuous dynamical system**.
+- Use `ggquiver` to **sketch the phase portrait**.
+- Find the **fixed points**.
+- Solve using `ode45` and **plot trajectories** in phase space for different values of \( A \).
+
+---
+
+## Exercise 5: Damped non-Linear pendulum
+
+Compare the results of **Exercise 4** with the **damped non-linear pendulum**, given by:
+
+\[
+\ddot{x} + 2\gamma \dot{x} + \omega_0^2 \sin(x) = 0
+\]
+
+Perform the same **phase space analysis and numerical solution**.
+
+---
+
+## Exercise 6: Van der Pol oscillator
+
+Consider the **Van der Pol oscillator**:
+
+\[
+\dot{x} = y \\
+\dot{y} = -\mu y (x^2 - 1) - x
+\]
+
+- Use `ggquiver` to **sketch the phase space**.
+- Solve with `ode45` for \( \mu = 2 \) and \( x(0) = 0.1 \), \( y(0) = 0.1 \).
+
+---
+
+## Exercise 7: RLC circuit
+
+Consider an **RLC series circuit** driven by a constant voltage source \( \varepsilon \). The circuit follows the differential equation:
+
+\[
+L \frac{d^2 i}{dt^2} + R \frac{d i}{dt} + \frac{1}{C} i = \frac{d \varepsilon}{dt}
+\]
+
+where \( i(t) = \dot{q} \) is the current at time \( t \) and \( q(t) \) is the charge in the capacitor at time \( t \). Since \( \varepsilon \) is constant, the **equivalent 2D dynamical system** is given by:
+
+\[
+\dot{x} = y \\
+\dot{y} = - \frac{R}{L} y - \frac{1}{LC} x
+\]
+
+where \( x = i \) and \( y = \frac{d i}{dt} \). Consider the parameter values:
+
+\[
+\frac{R}{2L} = 2, \quad \frac{1}{LC} = 1, \quad \frac{\varepsilon}{L} = 1
+\]
+
+and the initial conditions:
+
+\[
+i(0) = 0, q(0)=0, \frac{d i}{dt}(0) = \frac{\varepsilon}{L} =1
+\]
+
+- Solve using `ode45` for \( x(0) = 0 \) and \( y(0) = 1 \) over the interval \( t \in [0,10] \).
+- Compare the numerical solution with the **analytical solution** by plotting \( i(t) \) vs. \( t \).
+
+---
+
+## Exercise 8: RLC circuit with oscillations
+
+Now, modify the parameters to:
+
+\[
+\frac{R}{2L} = 1, \quad \frac{1}{LC} = 2, \quad \frac{\varepsilon}{L} = 1
+\]
+
+The RLC circuit **oscillates** in this case.
+
+- Solve using `ode45` for \( i(0) = 0 \) and \( \frac{di}{dt}(0) = 1 \) in \( t \in [0,10] \).
+- Compare with the **analytical solution**.
+
+---
+
+## Exercise 9: Nonlinear System from Strogatz (Ex. 6.3.2)
+
+Consider the system:
+
+\[
+\dot{x} = -y + a x (x^2 + y^2) \\
+\dot{y} = x + a y (x^2 + y^2)
+\]
+
+- Use `ggquiver` to **sketch the phase portrait** for \( a < 0 \), \( a = 0 \), and \( a > 0 \).
+- Draw some **trajectories** for all values of \( a \).
+
+---
+
+::: {.info}
+**Note:** Ensure that your plots use sufficient iterations and data points to observe the system's long-term behavior.
+:::
+
