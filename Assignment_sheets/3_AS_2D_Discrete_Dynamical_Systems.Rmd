@@ -1,0 +1,126 @@
+---
+title: "2D-Discrete Dynamical Systems (Assignment Sheet 3)"
+subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETSIDI, UPM)"
+author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+## Introduction: Plotting 2D-orbits in R
+
+Before solving the exercises, let's go through an example of how to plot the orbits of a 2D map using R. We will use the Gingerbreadman map, which is a simple example of a chaotic dynamical system that generates intricate, non-repeating patterns from a piecewise linear transformation.
+
+The Gingerbreadman map is given by the equations:
+
+\[
+x_{n+1} = 1 - y_n + |x_n|
+\]
+\[
+y_{n+1} = x_n
+\]
+
+To visualize orbits of this system in R, follow these steps:
+
+1. **Load ggplot2 for visualization:**
+```{r}
+library(ggplot2)
+```
+
+2. **Define the function to generate the Gingerbreadman map:**
+
+  ```{r}
+gingerbreadman_map <- function(x0, y0, n) {
+  x <- numeric(n)
+  y <- numeric(n)
+  x[1] <- x0
+  y[1] <- y0
+  
+  for (i in 2:n) {
+    x[i] <- 1 - y[i-1] + abs(x[i-1])
+    y[i] <- x[i-1]
+  }
+  
+  data.frame(x, y)
+}
+  ```
+2. **Generate orbit with initial conditions:**
+  ```{r}
+data_gbm <- gingerbreadman_map(1.1, 6.1, 10000)
+```
+3. **Plot the orbit using `ggplot2`:**
+ ```{r}
+ggplot(data_gbm, aes(x = x, y = y)) +
+  geom_point(color = 'blue', alpha = 0.5, size = .5) +
+  labs(title = "Gingerbreadman map", x = "x", y = "y") +
+  theme_bw()
+  ```
+
+You can modify the parameters to observe different behaviors of the above map using `ggplot2`.
+
+## Exercise 1: The Lotka-Volterra discrete map
+The Lotka-Volterra discrete map models predator-prey interactions in a discrete-time framework, capturing oscillatory population dynamics and potential chaotic behavior. The long-term behavior of the system can converge to fixed points, periodic cycles, or chaotic attractors, depending on the parameter values.
+
+The discrete 2D Lotka-Volterra map is given by:
+
+\[
+x_n = \frac{\alpha x_{n-1} - \beta x_{n-1} y_{n-1}}{1 + \gamma x_{n-1}}
+\]
+\[
+y_n = \frac{\delta y_{n-1} - \epsilon x_{n-1} y_{n-1}}{1 + \eta y_{n-1}}
+\]
+
+where:
+
+- Case 1: \( \alpha = 170, \beta = 11, \gamma = 2.7, \delta = 50, \epsilon = 1.7, \eta = 7, x_1 = 7, y_1 = 5 \)
+- Case 2: \( \alpha = 1.001, \beta = 0.03, \gamma = 0.6, \delta = 1.002, \epsilon = 1.7, \eta = 0.9, x_1 = 0.0002, y_1 = 0.0006 \)
+
+Plot the solution (orbit) of the discrete dynamical system for both cases.
+
+## Exercise 2:  The Henon map (1976)
+The Henon map is a simplified model of chaotic dynamics in two dimensions, originally derived from a model of stellar motion in galaxies. It exhibits a well-known strange attractor, which demonstrates sensitive dependence on initial conditions, a key feature of chaotic systems. 
+
+The Henon map is given by the equations:
+
+\[
+x_{n+1} = y_n + 1 - a x_n^2
+\]
+\[
+y_{n+1} = b x_n
+\]
+
+where \( a \) and \( b \) are adjustable parameters. Set \( a = 1.4 \) and \( b = 0.3 \), then plot \( x_n \) vs \( y_n \).
+
+## Exercise 3: The standard map (Chirikov 1971)
+The Standard Map, also known as the Chirikov-Taylor Map, is a key model in Hamiltonian chaos, describing the transition from regular to chaotic motion in conservative dynamical systems. Depending on the parameter \( b \), the system can display stable islands, chaotic seas, or a mixture of both.
+
+The Standard map is defined as follows:
+
+\[
+x_{n+1} = y_{n+1} + x_n
+\]
+\[
+y_{n+1} = y_n + b \sin(x_n)
+\]
+
+- (a) Plot various orbits for \( b = 0 \).
+- (b) Plot the phase portrait for \( b = 0.5 \).
+- (c) Show the phase portrait for \( b = 1 \) and \( b = 2 \).
+
+## Exercise 4: The Lozi map (1978)
+The Lozi map is a piecewise linear version of the Henon map that retains its chaotic properties while being computationally simpler to analyze. It generates a strange attractor with a fractal structure, making it an important example in the study of deterministic chaos.
+
+The Lozi map is defined by:
+
+\[
+x_{n+1} = y_n + 1 - a |x_n|
+\]
+\[
+y_{n+1} = b x_n
+\]
+
+where \( -1 < b < 1 \). Plot orbits when \( a = 1.7 \) and \( b = 0.5 \).
