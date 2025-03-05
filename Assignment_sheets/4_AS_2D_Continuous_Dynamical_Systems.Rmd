@@ -20,10 +20,12 @@ Before starting the exercises, let's analyze a simple **2D continuous dynamical 
 
 Consider the system:
 
-\[
-\dot{x} = y \\
-\dot{y} = -p x
-\]
+$$
+\begin{aligned}
+\dot{x} &= y \\
+\dot{y} &= -p x
+\end{aligned}
+$$
 
 which describes a **harmonic oscillator** with a parameter \( p \) controlling the oscillation frequency. To solve and visualize this system in R, follow these steps:
 
@@ -100,10 +102,12 @@ which describes a **harmonic oscillator** with a parameter \( p \) controlling t
 
 Using the `ode45` command, solve the linear system:
 
-\[
-\dot{x} = -a x \\
-\dot{y} = a x - b y
-\]
+$$
+\begin{aligned}
+\dot{x} &= -a x \\
+\dot{y} &= a x - b y
+\end{aligned}
+$$
 
 for \( a = 2 \), \( b = 3 \), and initial conditions \( x(0) = 1 \), \( y(0) = 1 \). Try different parameter values and initial conditions. Plot the **phase space trajectory**.
 
@@ -173,17 +177,49 @@ Perform the same **phase space analysis and numerical solution**.
 
 Consider the **Van der Pol oscillator**:
 
-\[
-\dot{x} = y \\
-\dot{y} = -\mu y (x^2 - 1) - x
-\]
+$$
+\begin{aligned}
+\dot{x} &= y \\
+\dot{y} &= -\mu y (x^2 - 1) - x
+\end{aligned}
+$$
+
 
 - Use `ggquiver` to **sketch the phase space**.
 - Solve with `ode45` for \( \mu = 2 \) and \( x(0) = 0.1 \), \( y(0) = 0.1 \).
 
+
 ---
 
-## Exercise 7: RLC circuit
+## Exercise 7: The Lotka-Volterra flow
+
+Consider the **Lotka-Volterra predator-prey model** defined by:
+
+$$
+\begin{aligned}
+\dot{x} &= \alpha x - \beta x y \\
+\dot{y} &= \delta x y - \gamma y
+\end{aligned}
+$$
+
+where \( \alpha, \beta, \gamma, \delta \) are **positive constants**.
+
+1. **Use typical parameter values**, such as:
+   - \( \alpha = 1.1, \beta = 0.4, \gamma = 0.4, \delta = 0.1 \)
+   - \( \alpha = 0.5, \beta = 0.2, \gamma = 0.3, \delta = 0.15 \)
+   
+2. **Try different initial conditions**, such as:
+   - \( x_0 = 10, y_0 = 5 \) (moderate prey, low predator)
+   - \( x_0 = 30, y_0 = 10 \) (higher prey and predator populations)
+   
+3. **Draw the phase portrait**.
+4. **Plot some solution trajectories** for different initial values.
+5. **Analyze how changing parameters affect the system's behavior.**
+
+
+---
+
+## Exercise 8: RLC circuit
 
 Consider an **RLC series circuit** driven by a constant voltage source \( \varepsilon \). The circuit follows the differential equation:
 
@@ -193,10 +229,13 @@ L \frac{d^2 i}{dt^2} + R \frac{d i}{dt} + \frac{1}{C} i = \frac{d \varepsilon}{d
 
 where \( i(t) = \dot{q} \) is the current at time \( t \) and \( q(t) \) is the charge in the capacitor at time \( t \). Since \( \varepsilon \) is constant, the **equivalent 2D dynamical system** is given by:
 
-\[
-\dot{x} = y \\
-\dot{y} = - \frac{R}{L} y - \frac{1}{LC} x
-\]
+
+$$
+\begin{aligned}
+\dot{x} &= y \\
+\dot{y} &= - \frac{R}{L} y - \frac{1}{LC} x
+\end{aligned}
+$$
 
 where \( x = i \) and \( y = \frac{d i}{dt} \). Consider the parameter values:
 
@@ -215,7 +254,7 @@ i(0) = 0, q(0)=0, \frac{d i}{dt}(0) = \frac{\varepsilon}{L} =1
 
 ---
 
-## Exercise 8: RLC circuit with oscillations
+## Exercise 9: RLC circuit with oscillations
 
 Now, modify the parameters to:
 
@@ -230,14 +269,17 @@ The RLC circuit **oscillates** in this case.
 
 ---
 
-## Exercise 9: Nonlinear System from Strogatz (Ex. 6.3.2)
+## Exercise 10: Nonlinear System from Strogatz (Ex. 6.3.2)
 
 Consider the system:
 
-\[
-\dot{x} = -y + a x (x^2 + y^2) \\
-\dot{y} = x + a y (x^2 + y^2)
-\]
+$$
+\begin{aligned}
+\dot{x} & = -y + a x (x^2 + y^2) \\
+\dot{y} & = +x + a y (x^2 + y^2)
+\end{aligned}
+$$
+
 
 - Use `ggquiver` to **sketch the phase portrait** for \( a < 0 \), \( a = 0 \), and \( a > 0 \).
 - Draw some **trajectories** for all values of \( a \).
