@@ -1,15 +1,15 @@
 ---
-title: "1D-Discrete Dynamical Systems: Logistic Map Analysis (Assignment Sheet 5a)"
-subtitle: "Introduction to Chaos Applied to Systems, Processes, and Products (ETSIDI, UPM)"
+title: "1D-Discrete dynamical systems: Logistic map analysis (Assignment Sheet 5a)"
+subtitle: "Introduction to chaos applied to systems, processes, and products (ETSIDI, UPM)"
 author: "Alfonso Allen-Perkins, Juan Carlos Bueno, and Eduardo Faleiro"
 date: "`r Sys.Date()`"
 output: 
-  pdf_document:
-    toc: true
   html_document:
     theme: united
     toc: true
     toc_float: true
+  pdf_document:
+    toc: true
 ---
 ## Introduction
 
@@ -62,7 +62,7 @@ iterate_logistic <- function(mu, x0, n) {
   )
 }
 ```
-## 1. Logistic Map Orbits
+## 1. Logistic map orbits
 
 Here we iterate the logistic map for a few values of \(\mu\) and different initial conditions \(x_0\). We then plot the resulting orbits to see how the system evolves over time.
 
@@ -90,7 +90,7 @@ ggplot(orbit_data, aes(x = iteration, y = x, color = as.factor(mu))) +
   xlab("Iteration (n)") +
   ylab(expression(x[n])) +
   labs(color = expression(mu)) +
-  ggtitle("Logistic Map Orbits for Various mu and x0") +
+  ggtitle("Logistic map orbits for Various mu and x0") +
   theme_bw()
 
 ```
@@ -101,7 +101,7 @@ ggplot(orbit_data, aes(x = iteration, y = x, color = as.factor(mu))) +
 
 ---
 
-## 2. Cobweb Plots
+## 2. Cobweb plots
 
 Cobweb plots visualize the iterative process:
 1. We start at \((x_0, 0)\).
@@ -156,7 +156,7 @@ cobweb_plot <- function(mu, x0 = 0.2, n_iter = 50) {
     geom_segment(data = cobweb_segments2,
                  aes(x = x_start, xend = x_end, y = y_start, yend = y_end),
                  color = "red") +                                           # horizontal
-    labs(title = paste("Cobweb Plot for Logistic Map (mu =", mu, ")"),
+    labs(title = paste("Cobweb plot for logistic map (mu =", mu, ")"),
          x = expression(x[n]),
          y = expression(x[n+1])) +
     coord_fixed(ratio = 1) +
@@ -236,10 +236,19 @@ bif_data <- generate_bifurcation_data(mu_min = 0, mu_max = 4, mu_steps = 600,
 # Plot
 ggplot(bif_data, aes(x = mu, y = x)) +
   geom_point(size = 0.3, alpha = 0.4) +
-  labs(title = "Bifurcation Diagram of the Logistic Map",
+  labs(title = "Bifurcation diagram of the logistic map",
        x = expression(mu),
        y = "Asymptotic Values of x") +
   theme_minimal()
+
+# Plot
+ggplot(bif_data %>% filter(mu > 2.5), aes(x = mu, y = x)) +
+  geom_point(size = 0.3, alpha = 0.4) +
+  labs(title = "Detail of the bifurcation diagram of the logistic map",
+       x = expression(mu),
+       y = "Asymptotic Values of x") +
+  theme_minimal()
+
 ``` 
   
   
