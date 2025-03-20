@@ -4,11 +4,11 @@ subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETS
 author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
 date: "`r Sys.Date()`"
 output:
-  pdf_document:
-    toc: true
   html_document:
     toc: true
     toc_float: true
+  pdf_document:
+    toc: true
 ---
 
 ## Introduction: Example of a 2D continuous dynamical system
@@ -95,7 +95,39 @@ which describes a **harmonic oscillator** with a parameter \( p \) controlling t
      ggtitle("Vector field and orbits of the harmonic oscillator") +
      theme_bw()
    ```
+6. **Visualizing the nullclines along with their vector fields with `ggquiver`:**
 
+**Nullclines** are curves in the phase plane along which either \( \dot{x} = 0 \) or \( \dot{y} = 0 \). For our system:
+
+- The \(x\)-nullcline (where \( \dot{x} = 0 \)) is given by \(y = 0\).
+- The \(y\)-nullcline (where \( \dot{y} = 0 \)) is given by \(x = 0\).
+
+The intersection of these nullclines occurs at the equilibrium point \((0,0)\).
+
+   ```{r}
+   grid_nullcline_x <- expand.grid(x = 0, y = seq(-2, 2, length.out = 20))
+   grid_nullcline_x$dx <- grid_nullcline_x$y
+   grid_nullcline_x$dy <- -parameters["p"] * grid_nullcline_x$x
+
+   grid_nullcline_y <- expand.grid(x = seq(-2, 2, length.out = 20), y = 0)
+   grid_nullcline_y$dx <- grid_nullcline_y$y
+   grid_nullcline_y$dy <- -parameters["p"] * grid_nullcline_y$x
+   
+   ggplot() +
+      geom_path(data = solution_df1, aes(x = x, y = y), color = "blue") +
+      geom_path(data = solution_df2, aes(x = x, y = y), color = "black") +
+      geom_vline(xintercept = 0, color = "purple", linetype = "dashed", linewidth = 1) +
+      geom_hline(yintercept = 0, color = "red", linetype = "dashed", linewidth = 1) +
+      geom_quiver(data = grid_nullcline_x, aes(x = x, y = y, u = dx, v = dy), 
+              color = "purple", linewidth = 1) +
+      geom_quiver(data = grid_nullcline_y, aes(x = x, y = y, u = dx, v = dy), 
+              color = "red", linewidth = 1) +
+      xlab("x") +
+      ylab("y") +
+      ggtitle("Nullclines of a simple harmonic oscillator with their vectors and two orbits") +
+      theme_bw()
+   
+   ```
 ---
 
 ## Exercise 1: Solving a linear system with `ode45`
