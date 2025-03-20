@@ -1,0 +1,334 @@
+---
+title: "1D-Bifurcations (Assignment Sheet 5)"
+subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETSIDI, UPM)"
+author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+  pdf_document:
+    toc: true
+---
+
+# Introduction
+
+Bifurcation theory describes how the qualitative behavior of equilibria changes as a system parameter varies. Here we explore different types of bifurcations using R.
+
+Required Libraries
+```{r}
+library(ggplot2)
+```
+
+---
+
+# 1. Supercritical bifurcation
+
+## **1.1 Theoretical background**
+
+A **supercritical bifurcation** occurs when a stable equilibrium splits into two new stable equilibria as the control parameter \( r \) crosses a critical value. The system under study is:
+
+$$
+\begin{aligned}
+\dot{x} &= r \cdot x - x^3
+\end{aligned}
+$$
+
+The fixed points of this system are:
+
+\[
+x^* = 0, \quad \pm\sqrt{r}
+\]
+
+The number and stability of fixed points depend on the value of \( r \):
+
+- **Case A**: \( r = -1 \) → Only one stable fixed point at \( x = 0 \).
+- **Case B**: \( r = 0 \) → Bifurcation point where stability changes.
+- **Case C**: \( r = 1 \) → The origin becomes unstable, and two new stable fixed points appear.
+
+## **1.2 Phase portraits for different \( r \)**
+
+By plotting \( \dot{x} \) versus \( x \), we observe the change in stability of the origin \( x^* = 0 \). When \( r = -1 \), the origin is stable; when \( r = 1 \), it becomes unstable.
+
+
+```{r}
+
+supercritical_map <- function(x, r) {
+  return(r * x - x^3)
+}
+
+r_values <- c(-1,0,1)
+x_vals <- seq(-1.5, 1.5, length.out = 100)
+dx_dt_df <- NULL  # Initialize as empty data frame
+
+for (r in r_values) {
+  df_aux <- data.frame(
+    x = x_vals,
+    dx_dt = supercritical_map(x_vals, r),
+    r = r)
+  dx_dt_df <- rbind(dx_dt_df, df_aux)  # Append new rows
+
+}
+
+ggplot(data = dx_dt_df, 
+       aes(x = x, y = dx_dt, color = as.factor(r))) +
+  geom_line(linewidth = 1) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(title = "Supercritical Bifurcation for dx/dt = r x - x^3", 
+       x = "x", y = "dx/dt", color = "r") +
+  facet_grid(~r)+
+  theme_bw()
+```
+
+## **1.3 Bifurcation diagram**
+
+To visualize how the nature of the roots depends on \( r \), we plot the fixed points of the system against \( r \), using colors to indicate stability:
+
+- **Blue** = Stable equilibrium
+- **Red** = Unstable equilibrium
+
+```{r}
+supercritical_map <- function(x, r) {
+  return(r * x - x^3)
+}
+
+fixed_points_supercritical <- function(r) {
+  roots <- polyroot(c(0,r,0,-1))
+  real_roots <- roots[round(Im(roots),10)==0]
+  return(Re(real_roots))
+}
+
+stability <- function(x, r) {
+  derivative <- r - 3 * x^2
+  if (derivative < 0) "Stable" else "Unstable"
+}
+
+r_values <- seq(-2, 2, length.out = 500)
+bifurcation_data <- NULL #Empty variable to store bifurcation data
+
+for (r in r_values) {
+  points_super <- fixed_points_supercritical(r)
+  for (x in points_super) {
+    bifurcation_data <- rbind(bifurcation_data, 
+                              data.frame(r = r, x = x, 
+                                         stability = stability(x, r)))
+  }
+}
+
+ggplot(bifurcation_data, aes(x = r, y = x, color = stability)) +
+  geom_point(size = 1.5, alpha = 0.7) +
+  scale_color_manual(values = c("Stable" = "blue", "Unstable" = "red")) +
+  labs(title = "Supercritical Bifurcation Diagram",
+       x = "r (Control Parameter)", y = "Fixed Points") +
+  theme_minimal()
+```
+
+---
+
+# 2. Subcritical bifurcation
+
+## **2.1 Theoretical background**
+
+A **subcritical bifurcation** is characterized by an unstable fixed point that merges with a stable one as the control parameter \( r \) changes. The system under study is:
+
+$$
+\begin{aligned}
+\dot{x} &= r \cdot x + x^3
+\end{aligned}
+$$
+
+The fixed points of this system are:
+
+\[
+x^* = 0, \quad \pm\sqrt{-r}
+\]
+
+## **2.2 Bifurcation diagram**
+
+```{r subcritical_bifurcation}
+subcritical_map <- function(x, r) {
+  return(r * x + x^3)
+}
+
+fixed_points_subcritical <- function(r) {
+  roots <- polyroot(c(0,r,0,1))
+  real_roots <- roots[round(Im(roots),10)==0]
+  return(Re(real_roots))
+}
+
+stability <- function(x, r) {
+  derivative <- r + 3 * x^2
+  if (derivative < 0) "Stable" else "Unstable"
+}
+
+r_values <- seq(-2, 2, length.out = 500)
+bifurcation_data <- NULL #Empty variable to store bifurcation data
+
+for (r in r_values) {
+  points_sub <- fixed_points_subcritical(r)
+  for (x in points_sub) {
+    bifurcation_data <- rbind(bifurcation_data, 
+                              data.frame(r = r, x = x, 
+                                         stability = stability(x, r)))
+  }
+}
+
+ggplot(bifurcation_data, aes(x = r, y = x, color = stability)) +
+  geom_point(size = 1.5, alpha = 0.7) +
+  scale_color_manual(values = c("Stable" = "blue", "Unstable" = "red")) +
+  labs(title = "Subcritical Bifurcation Diagram", 
+       x = "r (Control Parameter)", y = "Fixed Points") +
+  theme_bw()
+```
+
+---
+
+# 3. Saddle-Node bifurcation
+
+## **3.1 Theoretical background**
+
+A **saddle-Node bifurcation** occurs when two fixed points (one stable and one unstable) collide and annihilate each other as the control parameter \( r \) crosses a critical value. Consider the system:
+
+$$
+\begin{aligned}
+\dot{x} &= r  - x^2
+\end{aligned}
+$$
+
+The fixed points of this system are:
+
+\[
+x^*  \pm\sqrt{r}
+\]
+
+Depending on the value of \( r \):
+
+- **Case A**: \( r < 0 \) → No real fixed points, so the system does not have equilibrium solutions..
+- **Case B**: \( r = 0 \) → A single real fixed point at $x^*=0$. This is the point at which two fixed points collide.
+- **Case C**: \( r > 0 \) → Two real fixed points appear:$x^*= + \sqrt{r}$ and $x^*= - \sqrt{r}$. One will be stable, and the other unstable, reflecting the “saddle” (unstable) and “node” (stable) nature.
+
+The stability can be determined by evaluating the derivative of the right-hand side:
+
+\[
+\frac{d }{dt}(r-x^2)=-2\cdot x
+\]
+
+- If **$-2\cdot x<0$**, the fixed point is **stable**.
+
+- If **$-2\cdot x>0$**, the fixed point is **unstable**.
+
+
+## **3.2 Phase portraits for different \( r \)**
+
+Similar to the supercritical case, we can plot $\dot{x} = r  - x^2$ as a function of $x$ for representative values of $r$. Note how the number of intersections with $\dot{x} =0$ changes from no intersection (when  \( r < 0 \)) to one intersection at  \( r = 0 \)0, and two intersections (one stable, one unstable) when  \( r > 0 \).
+
+By plotting \( \dot{x} \) versus \( x \), we observe the change in stability of the origin \( x^* = 0 \). When \( r = -1 \), the origin is stable; when \( r = 1 \), it becomes unstable.
+
+```{r}
+# Phase portrait function
+saddle_node_map <- function(x, r) {
+  return(r - x^2)
+}
+
+# Choose representative values of r
+r_values <- c(-0.5, 0, 1)
+x_vals <- seq(-2, 2, length.out = 200)
+
+# Build data frame for plotting
+df_phase <- data.frame()
+
+for (r in r_values) {
+  df_temp <- data.frame(
+    x = x_vals,
+    dx_dt = saddle_node_map(x_vals, r),
+    r = as.factor(r)
+  )
+  df_phase <- rbind(df_phase, df_temp)
+}
+
+library(ggplot2)
+
+ggplot(df_phase, aes(x = x, y = dx_dt, color = r)) +
+  geom_line(linewidth = 1) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(title = "Saddle-Node Bifurcation: Phase Portraits",
+       x = "x", y = "dx/dt", color = "r") +
+  facet_grid(~r) +
+  theme_bw()
+```
+
+- For \( r =-0.5 \), there are no real fixed points (the curve never crosses the horizontal line \( \dot{x} =0\).
+- For \( r =0 \), there is one real fixed point at \( x =0 \) (the curve is tangent to the horizontal axis).
+- For  \( r = 1 \), there are two real fixed points,  \( x =\pm 1 \). One is stable (
+ \( x<0 \) since  \( -2\cdot x >0 \) there), and the other is unstable ( \( x>0 \) since since  \( -2\cdot x < 0 \) there).
+
+## **3.3 Bifurcation diagram**
+
+Finally, we construct the bifurcation diagram by identifying the fixed points across a range of \( r \) values and coloring them according to their stability. Notice how, for \( r > 0 \), two branches appear (stable and unstable), and for \( r < 0 \), there is no real fixed point.
+
+
+```{r saddle_node_bifurcation}
+map_function <- function(x, r) {
+  return(r - x^2)
+}
+
+fixed_points <- function(r) {
+  roots <- polyroot(c(r,0,-1))
+  real_roots <- roots[round(Im(roots),10)==0]
+  return(Re(real_roots))
+}
+
+stability <- function(x, r) {
+  derivative <- -2 * x
+  if (derivative < 0) "Stable" else "Unstable"
+}
+
+r_values <- seq(-1, 2, length.out = 500)
+bifurcation_data <- NULL #Empty variable to store bifurcation data
+
+for (r in r_values) {
+  points <- fixed_points(r)
+  for (x in points) {
+    bifurcation_data <- rbind(bifurcation_data, data.frame(r = r, x = x, stability = stability(x, r)))
+  }
+}
+
+ggplot(bifurcation_data, aes(x = r, y = x, color = stability)) +
+  geom_point(size = 1.5, alpha = 0.7) +
+  scale_color_manual(values = c("Stable" = "blue", "Unstable" = "red")) +
+  labs(title = "Saddle-Node Bifurcation Diagram", 
+       x = "r (Control Parameter)", y = "Fixed Points") +
+  theme_bw()
+```
+---
+
+# Exercise
+
+This pactice exercise is focused on characterizing the **subcritical bifurcation** of the system:
+
+\[
+\dot{x} = r\,x + x^3 - x^5.
+\]
+
+
+1. **Find the Equilibrium Points**  
+   - Write down the equilibrium equation \( \dot{x} = 0 \).  
+   - Factorize the polynomial to identify the solutions for \( x \) and see how they depend on \( r \).
+
+2. **Stability Analysis**  
+   - For each equilibrium \( x^* \), compute the derivative \( \frac{d}{dx}(r\,x + x^3 - x^5) = r + 3x^2 - 5x^4 \).  
+   - Conclude whether the equilibrium is **stable** (derivative < 0) or **unstable** (derivative > 0).
+
+3. **Sketch Phase Portraits**  
+   - Choose representative values of \( r \) (negative, zero, positive).  
+   - Plot \( \dot{x} \) vs. \( x \) by hand or in R, identify where \( \dot{x} = 0 \), and mark equilibria as stable or unstable.
+
+4. **Numerical Bifurcation Diagram**  
+   - Adapt or run the R script below, which uses polynomial root-finding (`polyroot`) to locate equilibria.  
+   - Color them by stability and plot them against \( r \).
+
+5. **Interpret the Results**  
+   - Identify the critical parameter value(s) of \( r \) that cause a subcritical bifurcation.  
+   - Compare to the simpler subcritical system \( \dot{x} = r\,x + x^3 \) to see how the additional \(-x^5\) term changes the bifurcation structure.
+
+---
