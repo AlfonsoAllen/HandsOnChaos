@@ -11,7 +11,7 @@
 
 <meta name="author" content="Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro" />
 
-<meta name="date" content="2025-03-31" />
+<meta name="date" content="2025-04-03" />
 
 <title>1D-Bifurcations (Assignment Sheet 6)</title>
 
@@ -1484,7 +1484,7 @@ border-radius: 0px;
 And Products (ETSIDI, UPM)</h3>
 <h4 class="author">Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo
 Faleiro</h4>
-<h4 class="date">2025-03-31</h4>
+<h4 class="date">2025-04-03</h4>
 
 </div>
 
@@ -1517,14 +1517,13 @@ x^* = 0, \quad \pm\sqrt{r}
 \]</span></p>
 <p>The number and stability of fixed points depend on the value of <span class="math inline">\(r\)</span>:</p>
 <ul>
-<li><strong>Case A</strong>: <span class="math inline">\(r = -1\)</span>
-→ Only one stable fixed point at <span class="math inline">\(x =
-0\)</span>.</li>
+<li><strong>Case A</strong>: <span class="math inline">\(r &lt;
+0\)</span> → Only one stable fixed point at <span class="math inline">\(x = 0\)</span>.</li>
 <li><strong>Case B</strong>: <span class="math inline">\(r = 0\)</span>
 → Bifurcation point where stability changes.</li>
-<li><strong>Case C</strong>: <span class="math inline">\(r = 1\)</span>
-→ The origin becomes unstable, and two new stable fixed points
-appear.</li>
+<li><strong>Case C</strong>: <span class="math inline">\(r &gt;
+0\)</span> → The origin becomes unstable, and two new stable fixed
+points appear.</li>
 </ul>
 </div>
 <div id="phase-portraits-for-different-r" class="section level2">
@@ -1723,8 +1722,8 @@ x&gt;0\)</span></strong>, the fixed point is
 <p>Similar to the supercritical case, we can plot <span class="math inline">\(\dot{x} = r  - x^2\)</span> as a function of <span class="math inline">\(x\)</span> for representative values of <span class="math inline">\(r\)</span>. Note how the number of intersections
 with <span class="math inline">\(\dot{x} =0\)</span> changes from no
 intersection (when <span class="math inline">\(r &lt; 0\)</span>) to one
-intersection at ( r = 0 )0, and two intersections (one stable, one
-unstable) when <span class="math inline">\(r &gt; 0\)</span>.</p>
+intersection at <span class="math inline">\(r = 0\)</span>, and two
+intersections (one stable, one unstable) when <span class="math inline">\(r &gt; 0\)</span>.</p>
 <p>By plotting <span class="math inline">\(\dot{x}\)</span> versus <span class="math inline">\(x\)</span>, we observe the change in stability of
 the origin <span class="math inline">\(x^* = 0\)</span>. When <span class="math inline">\(r = -1\)</span>, the origin is stable; when <span class="math inline">\(r = 1\)</span>, it becomes unstable.</p>
 <pre class="r"><code># Phase portrait function
