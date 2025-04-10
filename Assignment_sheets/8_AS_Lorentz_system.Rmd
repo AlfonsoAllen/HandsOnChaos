@@ -1,0 +1,54 @@
+---
+title: "Chaos in Climate Sciences: The Lorentz butterfly (Assignment Sheet 8)"
+subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETSIDI, UPM)"
+author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+  pdf_document:
+    toc: true
+---
+
+# Introduction
+
+The **Lorenz system** is a simplified model of atmospheric convection and a classical example of deterministic chaos. It describes the evolution of three variables over time:
+
+- $x$: the rate of convection  
+- $y$: the horizontal temperature variation  
+- $z$: the vertical temperature variation
+
+The governing equations are:
+
+$$
+\begin{aligned}
+\dot{x} &= \sigma \cdot (y - x) \\
+\dot{y} &= x \cdot (\rho - z) - y \\
+\dot{z} &= x \cdot y - \beta \cdot z
+\end{aligned}
+$$
+
+Here, the constants $\sigma$, $\rho$, and $\beta$ are parameters related to the Prandtl number, the Rayleigh number, and physical dimensions of the system. Lorenz originally used the values $\sigma = 10$, $\rho = 28$, and $\beta = 8/3$, under which the system exhibits chaotic behavior.
+
+## Sensitivity to Initial Conditions
+
+In chaotic systems, **sensitivity to initial conditions** refers to the phenomenon where tiny differences in the starting state of the system lead to vastly different outcomes over time. This means that two trajectories starting very close to each other may diverge exponentially as the system evolves.
+
+This property is a defining characteristic of chaos and implies that long-term predictions become practically impossible, even if the system is deterministic and governed by precise mathematical rules. It’s often referred to as the “butterfly effect”, suggesting that something as small as the flap of a butterfly's wings could influence weather patterns weeks later.
+
+# Exercise 1
+
+Using the `ode45` solver, simulate the Lorenz system with initial conditions $(1, 1, 1)$ and over a time span of $t \leq 100$ seconds. Explore the system’s behavior under different parameter sets:
+
+- **Non-chaotic regime**: $\sigma = 10$, $\rho = 0.5$, $\beta = 8/3$
+- **Non-chaotic regime**: $\sigma = 10$, $\rho = 10$, $\beta = 8/3$
+- **Chaotic regime**: $\sigma = 10$, $\rho = 28$, $\beta = 8/3$
+- **Periodic regime**: $\sigma = 10$, $\rho = 99.65$, $\beta = 8/3$
+- **Periodic regime**: $\sigma = 10$, $\rho = 350$, $\beta = 8/3$
+
+Visualize the 3D trajectories for each case to highlight the differences in the system’s long-term behavior.
+
+# Exercise 2
+
+Demonstrate the **sensitive dependence on initial conditions** by simulating two trajectories with slightly different starting points. Show how their paths diverge over time, illustrating a hallmark of chaotic systems.
