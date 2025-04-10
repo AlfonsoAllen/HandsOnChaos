@@ -109,7 +109,9 @@ plot_ly() %>%
             name = "Trajectory 2") 
 
 # During the first time steps both trajectories overlap, but then
-# they follow a different path
+# they follow different paths
+# Check this video on the  Lorenz systems and its sensitivity to
+# the intial conditions: https://www.youtube.com/watch?v=B4ftJl77PTw
 
 
 # We could also create a function to solve and plot 
