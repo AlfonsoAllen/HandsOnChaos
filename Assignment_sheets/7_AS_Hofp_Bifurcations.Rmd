@@ -4,11 +4,11 @@ subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETS
 author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
 date: "`r Sys.Date()`"
 output:
+  pdf_document:
+    toc: true
   html_document:
     toc: true
     toc_float: true
-  pdf_document:
-    toc: true
 ---
 
 ```{r setup, include=FALSE}
@@ -379,7 +379,7 @@ Checking $f'(r)$ shows that:
 - $r_1$ is **unstable** (because $f'(r_1)>0$)
 - $r_2$ is **stable** (because $f'(r_2)<0$)
 
-Hence, at $\mu =-.01$, there is one unstable limit cycle at the smaller radius and one stable limit cycle at the larger radius. The trivial solution $r=0$ also exists, but its stability typically depends on  $\mu$ and the interplay with the other cycles (in a subcritical Hopf scenario, the origin can be stable for certain ranges of $\mu$, leading to bistability).
+Hence, at $\mu =-0.1$, there is one unstable limit cycle at the smaller radius and one stable limit cycle at the larger radius. The trivial solution $r=0$ also exists, but its stability typically depends on  $\mu$ and the interplay with the other cycles (in a subcritical Hopf scenario, the origin can be stable for certain ranges of $\mu$, leading to bistability).
 
 ---
 
