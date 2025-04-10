@@ -4,11 +4,11 @@ subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETS
 author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
 date: "`r Sys.Date()`"
 output:
-  pdf_document:
-    toc: true
   html_document:
     toc: true
     toc_float: true
+  pdf_document:
+    toc: true
 ---
 
 ```{r setup, include=FALSE}
@@ -234,6 +234,7 @@ times <- seq(0, 100, by = 0.01)
 # Set parameters and time for numerical integration, before the bifurcation (mu>0)
 parameters_pos_mu <- c(mu = 0.1, omega = 2 * pi)
 times <- seq(0, 20, by = 0.01)
+times_large <- seq(0, 200, by = 0.01)
 
 # Function to simulate and convert polar to cartesian
 simulate_hopf_sub <- function(state, parameters, times) {
@@ -262,7 +263,7 @@ make_vecfield_sub <- function(mu, omega = 2 * pi) {
 }
 
 # Simulations (mu < 0)
-sol_1_neg_mu_sub <- simulate_hopf_sub(state1, parameters_neg_mu, times)
+sol_1_neg_mu_sub <- simulate_hopf_sub(state1, parameters_neg_mu, times_large)
 sol_2_neg_mu_sub <- simulate_hopf_sub(state2, parameters_neg_mu, times)
 sol_3_neg_mu_sub <- simulate_hopf_sub(state3, parameters_neg_mu, times)
 
