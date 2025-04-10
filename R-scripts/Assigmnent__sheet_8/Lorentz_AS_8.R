@@ -108,7 +108,7 @@ plot_ly() %>%
             line = list(color = "red"),
             name = "Trajectory 2") 
 
-# During the first time steps they overlap, but then
+# During the first time steps both trajectories overlap, but then
 # they follow a different path
 
 
