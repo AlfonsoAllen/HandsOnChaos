@@ -4,11 +4,11 @@ subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETS
 author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
 date: "`r Sys.Date()`"
 output:
-  pdf_document:
-    toc: true
   html_document:
     toc: true
     toc_float: true
+  pdf_document:
+    toc: true
 ---
 
 # Introduction
@@ -42,9 +42,9 @@ x^* = 0, \quad \pm\sqrt{r}
 
 The number and stability of fixed points depend on the value of \( r \):
 
-- **Case A**: \( r = -1 \) → Only one stable fixed point at \( x = 0 \).
+- **Case A**: \( r < 0 \) → Only one stable fixed point at \( x = 0 \).
 - **Case B**: \( r = 0 \) → Bifurcation point where stability changes.
-- **Case C**: \( r = 1 \) → The origin becomes unstable, and two new stable fixed points appear.
+- **Case C**: \( r > 0 \) → The origin becomes unstable, and two new stable fixed points appear.
 
 ## **1.2 Phase portraits for different \( r \)**
 
@@ -231,9 +231,9 @@ The stability can be determined by evaluating the derivative of the right-hand s
 
 ## **3.2 Phase portraits for different \( r \)**
 
-Similar to the supercritical case, we can plot $\dot{x} = r  - x^2$ as a function of $x$ for representative values of $r$. Note how the number of intersections with $\dot{x} =0$ changes from no intersection (when  \( r < 0 \)) to one intersection at  \( r = 0 \)0, and two intersections (one stable, one unstable) when  \( r > 0 \).
+Similar to the supercritical case, we can plot $\dot{x} = r  - x^2$ as a function of $x$ for representative values of $r$. Note how the number of intersections with $\dot{x} =0$ changes from no intersection (when  $r < 0$) to one intersection at $r = 0$, and two intersections (one stable, one unstable) when  $r > 0$.
 
-By plotting \( \dot{x} \) versus \( x \), we observe the change in stability of the origin \( x^* = 0 \). When \( r = -1 \), the origin is stable; when \( r = 1 \), it becomes unstable.
+By plotting $\dot{x}$ versus $x$, we observe the change in stability of the origin $x^* = 0$. When $r = -1$, the origin is stable; when $r = 1$, it becomes unstable.
 
 ```{r}
 # Phase portrait function
@@ -269,9 +269,9 @@ ggplot(df_phase, aes(x = x, y = dx_dt, color = r)) +
   theme_bw()
 ```
 
-- For \( r =-0.5 \), there are no real fixed points (the curve never crosses the horizontal line \( \dot{x} =0\).
-- For \( r =0 \), there is one real fixed point at \( x =0 \) (the curve is tangent to the horizontal axis).
-- For  \( r = 1 \), there are two real fixed points,  \( x =\pm 1 \). One is stable (
+- For $r =-0.5$, there are no real fixed points (the curve never crosses the horizontal line \( \dot{x} =0\).
+- For $r =0$, there is one real fixed point at \( x =0 \) (the curve is tangent to the horizontal axis).
+- For  $r = 1$, there are two real fixed points,  \( x =\pm 1 \). One is stable (
  \( x<0 \) since  \( -2\cdot x >0 \) there), and the other is unstable ( \( x>0 \) since since  \( -2\cdot x < 0 \) there).
 
 ## **3.3 Bifurcation diagram**
