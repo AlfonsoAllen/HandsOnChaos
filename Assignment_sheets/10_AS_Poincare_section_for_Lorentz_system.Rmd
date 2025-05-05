@@ -1,0 +1,143 @@
+---
+title: "Estimating a Poincaré Section of the Lorenz Attractor (Assignment Sheet 10)"
+subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETSIDI, UPM)"
+author: "Alfonso Allen-Perkins, Juan Carlos Bueno, and Eduardo Faleiro"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+# Introduction
+
+A **Poincaré section** is a fundamental tool in the study of dynamical systems. It provides a lower-dimensional snapshot of a system's trajectory, helping us understand the structure of chaotic attractors. In this assignment, we estimate a Poincaré section of the **Lorenz attractor**, a classical example of deterministic chaos.
+
+1. Load Required Packages
+
+```{r message=FALSE, warning=FALSE}
+library(deSolve)
+library(ggplot2)
+library(dplyr)
+```
+
+2. Define the Lorenz System
+
+```{r}
+lorenz <- function(t, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    dx <- sigma * (y - x)
+    dy <- x * (rho - z) - y
+    dz <- x * y - beta * z
+    list(c(dx, dy, dz))
+  })
+}
+
+parameters <- c(sigma = 10, rho = 28, beta = 8/3)
+state <- c(x = 1, y = 1, z = 1)
+times <- seq(0, 100, by = 0.01)
+
+out <- as.data.frame(ode(y = state, times = times, func = lorenz, parms = parameters))
+```
+
+3. Estimate the Poincaré Section
+
+We'll compute the Poincaré section by detecting trajectory crossings through the plane $z = 25$, keeping only the points where the trajectory crosses **from below** (i.e., positive slope in $z$).
+
+```{r}
+# Approximate Poincare section at z = 25
+z_target <- 25
+crossings <- which(diff(out$z > z_target) == 1)  # upward crossings
+
+# Linear interpolation to get better crossing point estimates
+poincare_points <- data.frame()
+for (i in crossings) {
+  x0 <- out[i, ]
+  x1 <- out[i + 1, ]
+  alpha <- (z_target - x0$z) / (x1$z - x0$z)
+  x_cross <- x0$x + alpha * (x1$x - x0$x)
+  y_cross <- x0$y + alpha * (x1$y - x0$y)
+  poincare_points <- rbind(poincare_points, data.frame(x = x_cross, y = y_cross))
+}
+```
+
+4. Visualize the Poincaré Section
+
+```{r}
+ggplot(poincare_points, aes(x = x, y = y)) +
+  geom_point(color = "steelblue") +
+  theme_minimal() +
+  labs(title = "Poincaré section of the Lorenz attractor (z = 25)",
+       x = "x-coordinate", y = "y-coordinate")
+
+
+# Full trajectory in (x, z), with Poincaré section overlaid
+ggplot() +
+  geom_path(data = out, 
+            aes(x = x, y = z), color = "grey70", alpha = 0.7) +
+  geom_point(data = poincare_points, aes(x = x, y = z_target), 
+             color = "red", size = 2, alpha = 0.9) +
+  theme_minimal() +
+  labs(title = "Lorenz attractor with Poincaré section (z = 25)",
+       x = "x-coordinate", y = "z-coordinate")
+```
+
+5. Interpretation
+
+- A structured or fractal-like pattern in the Poincaré section is a hallmark of deterministic chaos.
+- In contrast, for certain parameter sets, the Lorenz system becomes periodic. In such cases, the Poincaré section reveals a small number of discrete points, corresponding to a stable periodic orbit (limit cycle). For example, setting $\rho = 13.5$ results in a periodic regime, and the Poincaré section displays only one or a few points instead of a dense cloud.
+
+```{r}
+
+# Change parameters to a periodic regime
+parameters_periodic <- c(sigma = 10, rho = 350, beta = 8/3)
+state <- c(x = 1, y = 1, z = 1)
+times <- seq(0, 100, by = 0.01)
+
+out_periodic <- as.data.frame(ode(y = state, 
+                                  times = times, 
+                                  func = lorenz, 
+                                  parms = parameters_periodic))  %>% filter(time > 90)
+
+# Estimate Poincaré section as before
+z_target <- 300
+crossings_p <- which(diff(out_periodic$z > z_target) == 1)
+
+poincare_periodic <- data.frame()
+for (i in crossings_p) {
+  p0 <- out_periodic[i, ]
+  p1 <- out_periodic[i + 1, ]
+  alpha <- (z_target - p0$z) / (p1$z - p0$z)
+  x_cross <- p0$x + alpha * (p1$x - p0$x)
+  y_cross <- p0$y + alpha * (p1$y - p0$y)
+  poincare_periodic <- rbind(poincare_periodic, data.frame(x = x_cross,
+                                                           y = y_cross,
+                                                           z = z_target))
+}
+
+# Plot
+ggplot() +
+  geom_path(data = out_periodic, 
+            aes(x = x, y = y), color = "grey70") +
+  geom_point(data = poincare_periodic, aes(x = x, y = y), color = "darkred", size = 2) +
+  theme_minimal() +
+  labs(title = "Poincaré Section of Lorenz attractor (rho = 350, z = 300)",
+       x = "x-coordinate", y = "y-coordinate")
+
+# Plot
+ggplot() +
+  geom_path(data = out_periodic, 
+            aes(x = x, y = z), color = "grey70") +
+  geom_point(data = poincare_periodic, aes(x = x, y = z), color = "darkred", size = 2) +
+  theme_minimal() +
+  labs(title = "Poincaré Section of Lorenz attractor (rho = 350, z = 300)",
+       x = "x-coordinate", y = "z-coordinate")
+```
+
+# Suggestions for Exploration
+
+- Try different values for the section plane (e.g., `z = 20`, `z = 30`).
+- Use more precise numerical solvers or finer time steps to better capture crossings.
+- Explore projections in other planes (e.g., `y = const`).
