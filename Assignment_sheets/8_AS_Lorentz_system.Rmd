@@ -1,5 +1,5 @@
 ---
-title: "Chaos in Climate Sciences: The Lorentz butterfly (Assignment Sheet 8)"
+title: "Chaos in Climate Sciences: The Lorenz butterfly (Assignment Sheet 8)"
 subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETSIDI, UPM)"
 author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
 date: "`r Sys.Date()`"
