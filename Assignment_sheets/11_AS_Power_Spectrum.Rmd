@@ -1,0 +1,138 @@
+---
+title: "Exploring Power Spectra in Time Series (Assignment Sheet 12)"
+subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETSIDI, UPM)"
+author: "Alfonso Allen-Perkins, Juan Carlos Bueno, and Eduardo Faleiro"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+# Introduction
+
+In this assignment, you will explore the **power spectrum** of time series to better understand their frequency characteristics. The power spectrum reveals the contribution of different frequencies to the overall signal — a crucial perspective for identifying periodic, chaotic, or noisy behavior.
+
+# Power spectrum in R
+
+1. Load required libraries
+
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(nonlinearTseries)
+```
+
+2. Load time series data
+
+```{r load-data, root.dir = "."}
+setwd("C:/Users/alfon/Desktop/Projects/HandsOnChaos")
+getwd()
+list.files("Raw-data/Time_series")
+
+load_ts <- function(filename) {
+  scan(paste0("Raw-data/Time_series/", filename), quiet = TRUE) %>% ts()
+}
+
+# Sample time series
+ts_d1 <- load_ts("TS_deterministic_parabol.txt")
+ts_l2 <- load_ts("TS_logistic_3.7.txt")
+ts_ecg1 <- load_ts("NormalSinusRithm011.txt")
+ts_stock <- load_ts("TS_santander.txt")
+
+
+# Create a deterministic sine
+omega <- .05*2*pi
+x <- 1:1000
+ts_d2 <- sin(omega * x) %>% ts()
+
+```
+
+3. Visualize time series
+```{r}
+plot(ts_d2, type = "l", col = "grey40", 
+       main = "Deterministic Sine",
+       xlab = "Iteration (n)", ylab = "Value")
+
+plot(ts_l2, type = "l", col = "grey40", 
+       main = "Chaotic Logistic",
+       xlab = "Iteration (n)", ylab = "Value")
+```
+
+4. Power spectrum function
+
+```{r power-spectrum-func}
+plot_power_spectrum <- function(ts_data, title = "") {
+  ts_fft <- fft(ts_data)
+  n <- length(ts_data)
+  freqs <- (0:(n/2 - 1)) / n
+  power <- Mod(ts_fft[1:(n/2)])^2
+  
+  plot(freqs, log10(power), type = "l", col = "red", 
+       main = title,
+       xlab = "Frequency", ylab = "Log10(Power)")
+}
+```
+
+# Comparisson between periodic and chaotic time series
+
+```{r task1-spectra}
+par(mfrow = c(1, 2))
+plot_power_spectrum(ts_d2, title = "Deterministic sine")
+plot_power_spectrum(ts_l2, title = "Chaotic logistic")
+par(mfrow = c(1, 1))
+```
+
+**Interpretation:**
+
+
+- The deterministic sine signal shows sharp peaks at specific frequencies, indicating strong periodic components. In the example above, the true frequency of the sine function is:
+
+$f=\frac{\omega}{2\cdot \pi}=\frac{0.05\cdot 2\cdot \pi}{2\cdot \pi}=0.05$,
+
+as shown in the power-spectrum.
+
+- The chaotic logistic series has a broadband spectrum without clear peaks, reflecting irregularity and short-term predictability.
+
+# Task 1: Physiological vs Financial Data
+
+```{r task2-spectra}
+par(mfrow = c(1, 2))
+plot_power_spectrum(ts_ecg1, title = "ECG - Normal sinus rhythm")
+plot_power_spectrum(ts_stock, title = "Stock prices")
+par(mfrow = c(1, 1))
+```
+
+**Questions:**
+
+- Which signal has more prominent low-frequency components?
+
+- Do either show dominant frequencies? What might this suggest about regularity vs. randomness?
+
+# Optional: Try Log-Log Scaling
+
+```{r optional-loglog}
+loglog_spectrum <- function(ts_data, title = "") {
+  ts_fft <- fft(ts_data)
+  n <- length(ts_data)
+  freqs <- (0:(n/2 - 1)) / n
+  power <- Mod(ts_fft[1:(n/2)])^2
+  
+  plot(log10(freqs[-1]), log10(power[-1]), type = "l", col = "blue", 
+       main = paste(title),
+       xlab = "Log10(Frequency)", ylab = "Log10(Power)")
+}
+
+par(mfrow = c(2, 2))
+loglog_spectrum(ts_d2, "Deterministic sine")
+loglog_spectrum(ts_l2, "Chaotic logistic")
+loglog_spectrum(ts_ecg1, "ECG - Normal sinus rhythm")
+loglog_spectrum(ts_stock, "Stock prices")
+```
+
+**Solution:**
+
+The ECG signal (Normal sinus rhythm) exhibits prominent low-frequency components, reflecting the regular rhythm associated with heartbeats. This indicates periodic or quasi-periodic behavior, typical of biological rhythms with some natural variability.
+
+The financial time series (Santander stock prices) shows a broadband power spectrum without clear dominant peaks. This suggests highly irregular and stochastic behavior, consistent with market dynamics that are noisy, complex, and difficult to predict.
