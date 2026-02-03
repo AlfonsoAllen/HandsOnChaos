@@ -1,5 +1,5 @@
 ---
-title: "1D-Discrete dynamical systems: Logistic map analysis (Assignment Sheet 5a)"
+title: "1D-Discrete dynamical systems: Logistic map analysis"
 subtitle: "Introduction to chaos applied to systems, processes, and products (ETSIDI, UPM)"
 author: "Alfonso Allen-Perkins, Juan Carlos Bueno, and Eduardo Faleiro"
 date: "`r Sys.Date()`"

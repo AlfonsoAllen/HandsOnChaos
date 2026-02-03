@@ -1,0 +1,91 @@
+---
+title: "1D-Continuous Dynamical Systems (Assignment Sheet 2)"
+subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETSIDI, UPM)"
+author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+    toc: true
+    #number_sections: true
+  html_document:
+    theme: united
+    toc: true
+    toc_float: true
+    #number_sections: true
+  word_document:
+    toc: true
+    #number_sections: true
+---
+
+## Exercise 1 
+
+Consider the system 
+
+$$\dot{x} = x^2 - 1$$
+
+Solve and plot $\dot{x}$ versus $t$ for:
+
+- **Case a**: \( x(0) < -1 \)
+- **Case b**: \( -1 < x(0) < 1 \)
+- **Case c**: \( x(0) > 1 \)
+
+::: {.info}
+**Question:** What can be concluded about the points \( x=1 \) and \( x=-1 \)?
+:::
+
+---
+
+## Exercise 2
+
+Given the system
+$$\dot{x} = 3x - x^3$$
+
+
+- Find all the **fixed points**.
+- Analyze their **stability**.
+- Solve **numerically** with \( x(0) = 5 \) and plot for large \( t \).
+- Animate the solution.
+
+---
+
+## Exercise 3 
+
+The Logistic Flow is defined as:
+
+$$\dot{x} = \mu x (1 - x)$$
+for \( \mu > 0 \).
+
+- Find **fixed points** as a function of \( \mu \).
+- Perform a **stability analysis**.
+- Solve **numerically** with \( x(0) = 0.5 \) and animate the trajectory.
+
+---
+
+## Exercise 4
+
+Solve analytically the **Logistic Flow** (Exercise 3) and compare it with the numerical solution using `ode45` for:
+
+- \( x(0) = 0.1 \), with \( \mu = 2 \).
+
+---
+
+## Exercise 5
+
+For the following systems, **plot** \( \dot{x} \) vs \( x \), find **fixed points**, and analyze **stability**:
+
+- \( \dot{x} = \sin(x) e^{-x} \)
+- \( \dot{x} = e^{-x} - 10\cos(x) \)
+- \( \dot{x} = 1 + \frac{\cos(x)}{2} \)
+
+---
+
+## Exercise 6
+
+Consider an **electrical circuit** with a **linear resistor \( R \)** in series with **capacitor \( C \)** and **battery** with constant voltage **\( V \)**. Let \( Q(t) \) denote the charge of the capacitor at time \( t \geq 0 \).
+
+- Plot \( Q(t) \) when the capacitor starts with no charge.
+
+::: {.info}
+**Question:** What changes if the resistor is nonlinear, that is, if the voltage across the resistor depends on the electric current? Try the relation:
+$$V(I) = R \tanh(I)$$
+:::
