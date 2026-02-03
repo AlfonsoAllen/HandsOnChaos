@@ -66,7 +66,7 @@ output:
      ylab("Straight Line: y = x") +
      ggtitle("Plot of a straight line") +
      theme_bw()
-   ```
+```
 
 ---
 
@@ -157,13 +157,13 @@ output:
    non_polynomial_curve_df <- data.frame(x = x_values, y = y_values) 
    
    ggplot(data = non_polynomial_curve_df, aes(x = x, y = y)) +
-     geom_line(color = "blue") +
-     geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
-     geom_point(aes(x = fixed_point_0, y = 0), color = "red", size = 3) +
-     xlab("x") +
-     ylab("y = e^x - 10*cos(x)") +
-     ggtitle("Root of e^x - 10*cos(x) in [0, 2]") +
-     theme_bw()
+      geom_line(color = "blue") +
+      geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+      annotate("point", x = fixed_point_0, y = 0, color = "red", size = 3) +
+      xlab("x") +
+      ylab("y = e^x - 10*cos(x)") +
+      ggtitle("Root of e^x - 10*cos(x) in [0, 2]") +
+      theme_bw()
    ```
    
 ---
