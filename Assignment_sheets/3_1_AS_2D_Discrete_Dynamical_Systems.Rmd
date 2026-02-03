@@ -33,7 +33,7 @@ library(ggplot2)
 
 2. **Define the function to generate the Gingerbreadman map:**
 
-  ```{r}
+ ```{r}
 gingerbreadman_map <- function(x0, y0, n) {
   x <- numeric(n)
   y <- numeric(n)
@@ -47,18 +47,18 @@ gingerbreadman_map <- function(x0, y0, n) {
   
   data.frame(x, y)
 }
-  ```
+ ```
 2. **Generate orbit with initial conditions:**
-  ```{r}
+ ```{r}
 data_gbm <- gingerbreadman_map(1.1, 6.1, 10000)
-```
+ ```
 3. **Plot the orbit using `ggplot2`:**
  ```{r}
 ggplot(data_gbm, aes(x = x, y = y)) +
   geom_point(color = 'blue', alpha = 0.5, size = .5) +
   labs(title = "Gingerbreadman map", x = "x", y = "y") +
   theme_bw()
-  ```
+ ```
 
 You can modify the parameters to observe different behaviors of the above map using `ggplot2`.
 

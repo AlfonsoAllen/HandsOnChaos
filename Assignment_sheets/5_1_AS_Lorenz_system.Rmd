@@ -1,0 +1,138 @@
+---
+title: "Chaos in Climate Sciences: The Lorenz butterfly (Assignment Sheet 8)"
+subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETSIDI, UPM)"
+author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+# Introduction
+
+The **Lorenz system** is a simplified model of atmospheric convection and a classical example of deterministic chaos. It describes the evolution of three variables over time:
+
+- $x$: the rate of convection  
+- $y$: the horizontal temperature variation  
+- $z$: the vertical temperature variation
+
+The governing equations are:
+
+$$
+\begin{aligned}
+\dot{x} &= \sigma \cdot (y - x) \\
+\dot{y} &= x \cdot (\rho - z) - y \\
+\dot{z} &= x \cdot y - \beta \cdot z
+\end{aligned}
+$$
+
+Here, the constants $\sigma$, $\rho$, and $\beta$ are parameters related to the Prandtl number, the Rayleigh number, and physical dimensions of the system. Lorenz originally used the values $\sigma = 10$, $\rho = 28$, and $\beta = 8/3$, under which the system exhibits chaotic behavior.
+
+## Visualization of the Lorenz system
+
+
+1. **Load the required packages**
+
+```{r message=FALSE, warning=FALSE}
+library(ggplot2)
+library(deSolve)
+```
+
+2. **Define the Lorenz system**
+
+We use the classical parameter values $\sigma = 10$, $\rho = 28$, and $\beta = 8/3$, under which the system exhibits chaotic behavior.
+
+```{r}
+lorenz <- function(t, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    dx <- sigma * (y - x)
+    dy <- x * (rho - z) - y
+    dz <- x * y - beta * z
+    list(c(dx, dy, dz))
+  })
+}
+# Parameters
+parms <- c(sigma = 10, rho = 28, beta = 8/3)
+```
+
+3. **Simulate any initial condition in the basin of attraction and iterate until the orbit is on the attractor**.
+
+```{r}
+# Initial conditions and integration settings
+state_aux <- c(x = 1, y = 1, z = 1)
+dt <- 0.01
+total_time <- 200
+times <- seq(0, total_time, by = dt)
+
+# Integrate to reach attractor
+orbit_aux <- ode(state_aux, times, lorenz, parms, method = "ode45")
+orbit_aux_df <- as.data.frame(orbit_aux)
+```
+
+4. **Visualize the Lorenz attractor**
+
+```{r}
+ggplot()+
+  geom_path(data = orbit_aux_df, 
+            aes(x = x, y = z), color = "blue")+
+  geom_point(data = data.frame(x=state_aux["x"],y=state_aux["y"],z=state_aux["z"]), 
+             aes(x = x, y = z), color = "red", size = 3)+
+  labs(title = "The Lorenz attractor")+
+  coord_fixed()+
+  theme_bw()
+```
+
+
+## Sensitivity to Initial Conditions
+
+In chaotic systems, **sensitivity to initial conditions** refers to the phenomenon where tiny differences in the starting state of the system lead to vastly different outcomes over time. This means that two trajectories starting very close to each other may diverge exponentially as the system evolves.
+
+This property is a defining characteristic of chaos and implies that long-term predictions become practically impossible, even if the system is deterministic and governed by precise mathematical rules. It’s often referred to as the “butterfly effect”, suggesting that something as small as the flap of a butterfly's wings could influence weather patterns weeks later.
+
+1. **Lets simulate an initial condition very close to the previous one**.
+
+```{r}
+# Initial conditions and integration settings
+state_aux2 <- c(x = 1.000001, y = 1, z = 1)
+dt <- 0.01
+total_time <- 200
+times <- seq(0, total_time, by = dt)
+
+# Integrate to reach attractor
+orbit_aux2 <- ode(state_aux2, times, lorenz, parms, method = "ode45")
+orbit_aux_df2 <- as.data.frame(orbit_aux2)
+```
+
+4. **Visualize the Lorenz attractor**
+
+```{r}
+ggplot()+
+  geom_path(data = orbit_aux_df, 
+            aes(x = x, y = z), color = "blue")+
+  geom_path(data = orbit_aux_df2, 
+            aes(x = x, y = z), color = "purple")+
+  geom_point(data = data.frame(x=state_aux["x"],y=state_aux["y"],z=state_aux["z"]), 
+             aes(x = x, y = z), color = "red", size = 3)+
+  labs(title = "Sensitivity to initial conditions of the Lorenz attractor")+
+  coord_fixed()+
+  theme_bw()
+```
+
+# Exercise 1
+
+Using the `ode45` solver, simulate the Lorenz system with initial conditions $(1, 1, 1)$ and over a time span of $t \leq 100$ seconds. Explore the system’s behavior under different parameter sets:
+
+- **Non-chaotic regime**: $\sigma = 10$, $\rho = 0.5$, $\beta = 8/3$
+- **Non-chaotic regime**: $\sigma = 10$, $\rho = 10$, $\beta = 8/3$
+- **Chaotic regime**: $\sigma = 10$, $\rho = 28$, $\beta = 8/3$
+- **Periodic regime**: $\sigma = 10$, $\rho = 99.65$, $\beta = 8/3$
+- **Periodic regime**: $\sigma = 10$, $\rho = 350$, $\beta = 8/3$
+
+Visualize the 3D trajectories for each case to highlight the differences in the system’s long-term behavior.
+
+# Exercise 2
+
+Demonstrate the **sensitive dependence on initial conditions** by simulating two trajectories with slightly different starting points. Show how their paths diverge over time, illustrating a hallmark of chaotic systems.
