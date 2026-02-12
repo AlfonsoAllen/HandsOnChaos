@@ -189,6 +189,7 @@ You can also extract:
     my_matrix[ , 1]  # First column
     my_matrix[2, ]   # Second row
    ```
+So leaving an index empty means "select everything" in that dimension.
 
 ### 2.3: Accessing elements of a data frame
 
@@ -217,11 +218,8 @@ Access a column by name:
 Summary: Use `[ ]` to access elements:
 
 - Vectors use one index: `[i]`
-
 - Matrices and data frames use two indices: `[row, column]`
-
 - Data frame columns can be accessed by name using `$`
-
 - Leaving an index empty means "select everything" in that dimension
 
 ---
@@ -236,17 +234,41 @@ Functions help you:
 - Organize your work into logical pieces
 
 ### 3.1 Define a function to compute a parabola:
+
+We first define a function that computes the value of a parabola of the form  $y = x^2$.
+
+
    ```{r}
    parabola <- function(x) {
      return(x^2)
    }
    ```
-### 3.2 Define a function for a straight line:
+   
+In this function:
+
+- `parabola` is the name of the function
+
+- `x` is the input variable
+- `x^2` is the operation performed on the input
+- `return()` specifies the value that the function outputs
+
+### 3.2 Define a function for a straight line
+
+Now lets define a function for a straight line of the form $y=mx+b$.
+
    ```{r}
    straight_line <- function(x, m=1, b=0) {
      return(m * x + b)
    }
    ```
+In this function:
+
+- `x` is the input variable
+- `m` is the slope of the line (default value: 1)
+- `b` is the intercept (default value: 0)
+
+The default values mean that if m and b are not specified, the function computes $y=x$.
+   
 ### 3.3 Apply these functions to a sequence of input values and store the results in appropriate data structures.
 
 For example, evaluate the functions over the interval \([-10, 10]\). To do so, first, we create a sequence of evenly spaced values:
@@ -319,6 +341,7 @@ Next, we apply each function to this sequence and store the results in data fram
 A for loop is a way to repeat the same piece of code multiple times, changing a value each time it runs.
 
 In R, a for loop is typically used when:
+
 -You want to perform the same calculation many times
 -Each step depends on the previous one
 -You need to keep track of an index (like time or iteration number)
@@ -393,6 +416,7 @@ So here, starting from an initial condition \( x_0 \) and a given value of \( r 
    ```
    
 ### 4.3 Compute the results.   
+
    ```{r}
    orbit_data <- logistic_map(r_value, x0_value, n_iter)
    ```

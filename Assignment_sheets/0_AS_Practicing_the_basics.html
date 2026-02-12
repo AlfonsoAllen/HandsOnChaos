@@ -1677,6 +1677,8 @@ index.</p>
 <pre><code>## [1] 1 2 3</code></pre>
 <pre class="r"><code> my_matrix[2, ]   # Second row</code></pre>
 <pre><code>## [1] 2 5 8</code></pre>
+<p>So leaving an index empty means “select everything” in that
+dimension.</p>
 </div>
 <div id="accessing-elements-of-a-data-frame" class="section level3">
 <h3>2.3: Accessing elements of a data frame</h3>
@@ -1696,13 +1698,12 @@ types.</p>
 <pre><code>## [1] &quot;Alice&quot;   &quot;Bob&quot;     &quot;Charlie&quot;</code></pre>
 <p>Summary: Use <code>[ ]</code> to access elements:</p>
 <ul>
-<li><p>Vectors use one index: <code>[i]</code></p></li>
-<li><p>Matrices and data frames use two indices:
-<code>[row, column]</code></p></li>
-<li><p>Data frame columns can be accessed by name using
-<code>$</code></p></li>
-<li><p>Leaving an index empty means “select everything” in that
-dimension</p></li>
+<li>Vectors use one index: <code>[i]</code></li>
+<li>Matrices and data frames use two indices:
+<code>[row, column]</code></li>
+<li>Data frame columns can be accessed by name using <code>$</code></li>
+<li>Leaving an index empty means “select everything” in that
+dimension</li>
 </ul>
 <hr />
 </div>
@@ -1719,15 +1720,34 @@ Functions help you:</p>
 </ul>
 <div id="define-a-function-to-compute-a-parabola" class="section level3">
 <h3>3.1 Define a function to compute a parabola:</h3>
+<p>We first define a function that computes the value of a parabola of
+the form <span class="math inline">\(y = x^2\)</span>.</p>
 <pre class="r"><code>parabola &lt;- function(x) {
   return(x^2)
 }</code></pre>
+<p>In this function:</p>
+<ul>
+<li><p><code>parabola</code> is the name of the function</p></li>
+<li><p><code>x</code> is the input variable</p></li>
+<li><p><code>x^2</code> is the operation performed on the input</p></li>
+<li><p><code>return()</code> specifies the value that the function
+outputs</p></li>
+</ul>
 </div>
 <div id="define-a-function-for-a-straight-line" class="section level3">
-<h3>3.2 Define a function for a straight line:</h3>
+<h3>3.2 Define a function for a straight line</h3>
+<p>Now lets define a function for a straight line of the form <span class="math inline">\(y=mx+b\)</span>.</p>
 <pre class="r"><code>straight_line &lt;- function(x, m=1, b=0) {
   return(m * x + b)
 }</code></pre>
+<p>In this function:</p>
+<ul>
+<li><code>x</code> is the input variable</li>
+<li><code>m</code> is the slope of the line (default value: 1)</li>
+<li><code>b</code> is the intercept (default value: 0)</li>
+</ul>
+<p>The default values mean that if m and b are not specified, the
+function computes <span class="math inline">\(y=x\)</span>.</p>
 </div>
 <div id="apply-these-functions-to-a-sequence-of-input-values-and-store-the-results-in-appropriate-data-structures." class="section level3">
 <h3>3.3 Apply these functions to a sequence of input values and store
@@ -1794,9 +1814,10 @@ in data frames:</p>
 <h2>4: Using a For loop</h2>
 <p>A for loop is a way to repeat the same piece of code multiple times,
 changing a value each time it runs.</p>
-<p>In R, a for loop is typically used when: -You want to perform the
-same calculation many times -Each step depends on the previous one -You
-need to keep track of an index (like time or iteration number)</p>
+<p>In R, a for loop is typically used when:</p>
+<p>-You want to perform the same calculation many times -Each step
+depends on the previous one -You need to keep track of an index (like
+time or iteration number)</p>
 <p>For example, we can use a <code>for</code> loop to print the numbers
 from 1 to 5.</p>
 <pre class="r"><code> for (i in 1:5) {
