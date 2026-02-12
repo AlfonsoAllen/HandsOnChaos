@@ -1518,6 +1518,17 @@ in our current R session.</p>
 <p>In this course, we will use the <strong>ggplot2</strong> library to
 create plots and visualizations. To load it, type:</p>
 <pre class="r"><code>library(ggplot2)</code></pre>
+<p>If you get an error saying that the package is not installed, you
+need to install it first. Installing a library only needs to be done
+once. Just type: <code>install.packages(&quot;ggplot2&quot;)</code>.</p>
+<p>As another example, try installing <code>deSolve</code>, a library
+for working with differential equations and dynamical systems.</p>
+<div class="info">
+<p><strong>Important:</strong> You install a package only once, but you
+must load it every time you start a new R session. Also, note that
+package names are written in quotes when installing, but not when
+loading them with <code>library()</code>.</p>
+</div>
 </div>
 <div id="creating-variables-and-assigning-values" class="section level3">
 <h3>1.3 Creating variables and assigning values</h3>
@@ -1533,10 +1544,12 @@ A variable has a <strong>name</strong> and stores a
 <li><code>5</code> is the value stored in <code>x</code></li>
 <li><code>&lt;-</code> assigns the value to the variable</li>
 </ul>
-<p>To display <code>x</code> and check it just type:</p>
+<p>To display <code>x</code> and check that it was stored correctly,
+just type:</p>
 <pre class="r"><code> x</code></pre>
 <pre><code>## [1] 5</code></pre>
-<p>You can then use the variable in yourcalculations:</p>
+<p>R will print the value of <code>x</code> in the Console.</p>
+<p>You can then use the variable in your calculations:</p>
 <pre class="r"><code> x + 2</code></pre>
 <pre><code>## [1] 7</code></pre>
 </div>
@@ -1629,7 +1642,7 @@ help page in RStudio, where you can see:</p>
 </div>
 </div>
 <div id="accessing-elements-in-r" class="section level2">
-<h2>2: Accessing Elements in R</h2>
+<h2>2: Accessing elements in R</h2>
 <p>In R, we can access (or extract) specific elements from objects such
 as <strong>vectors</strong>, <strong>matrices</strong>, and <strong>data
 frames</strong> using <strong>square brackets</strong>
@@ -1716,9 +1729,9 @@ Functions help you:</p>
   return(m * x + b)
 }</code></pre>
 </div>
-<div id="apply-these-functions-to-a-sequence-of-values-and-store-results." class="section level3">
-<h3>3.3 Apply these functions to a sequence of values and store
-results.</h3>
+<div id="apply-these-functions-to-a-sequence-of-input-values-and-store-the-results-in-appropriate-data-structures." class="section level3">
+<h3>3.3 Apply these functions to a sequence of input values and store
+the results in appropriate data structures.</h3>
 <p>For example, evaluate the functions over the interval <span class="math inline">\([-10, 10]\)</span>. To do so, first, we create a
 sequence of evenly spaced values:</p>
 <pre class="r"><code>  x_values &lt;- seq(-10, 10, length.out = 100)</code></pre>
@@ -1778,7 +1791,7 @@ in data frames:</p>
 </div>
 </div>
 <div id="using-a-for-loop" class="section level2">
-<h2>4: Using a For Loop</h2>
+<h2>4: Using a For loop</h2>
 <p>A for loop is a way to repeat the same piece of code multiple times,
 changing a value each time it runs.</p>
 <p>In R, a for loop is typically used when: -You want to perform the
@@ -1927,18 +1940,19 @@ ggplot(data = polynomial_curve_df, aes(x = x, y = y)) +
 cannot use <code>polyroot()</code>.<br />
 Instead, we use numerical methods to approximate roots.</p>
 <p>To find a root of this function in a given interval, we use the
-function uniroot(). This function searches for a value of <span class="math inline">\(x\)</span> where <span class="math inline">\(f(x)=0\)</span>, within a specified interval.</p>
+function <code>uniroot()</code>. This function searches for a value of
+<span class="math inline">\(x\)</span> where <span class="math inline">\(f(x)=0\)</span>, within a specified interval.</p>
 <p>Consider the function</p>
 <p><span class="math display">\[
 f(x) = e^x - 10 \cos(x).
 \]</span></p>
 <p>5.2.1. Define the function <span class="math inline">\(f(x) = e^x -
 10 \cos(x)\)</span></p>
-<pre class="r"><code>dx_dt &lt;- function(x) {
+<pre class="r"><code>non_polynomial_curve_f &lt;- function(x) {
   exp(x) - 10 * cos(x)
 }</code></pre>
 <p>5.2.2. Find a root in a given interval (for example, <span class="math inline">\([0, 2]\)</span>):</p>
-<pre class="r"><code>root_f &lt;- uniroot(dx_dt, interval = c(0, 2))$root
+<pre class="r"><code>root_f &lt;- uniroot(non_polynomial_curve_f, interval = c(0, 2))$root
 print(root_f)</code></pre>
 <pre><code>## [1] 1.223853</code></pre>
 <div class="info">
@@ -1947,9 +1961,8 @@ type <code>?uniroot</code> in the console.</p>
 </div>
 <p>5.2.2. Plot the function and highlight the root:</p>
 <pre class="r"><code>x_values &lt;- seq(-2, 3, length.out = 100)
-y_values &lt;- exp(x_values) - 10 * cos(x_values)
 
-non_polynomial_curve_df &lt;- data.frame(x = x_values, y = y_values) 
+non_polynomial_curve_df &lt;- data.frame(x = x_values, y = non_polynomial_curve_f(x_values)) 
 
 ggplot(data = non_polynomial_curve_df, aes(x = x, y = y)) +
    geom_line(color = &quot;blue&quot;) +

@@ -4,12 +4,12 @@ subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETS
 author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
 date: "`r Sys.Date()`"
 output: 
+  pdf_document:
+    toc: true
   html_document:
     theme: united
     toc: true
     toc_float: true
-  pdf_document:
-    toc: true
 ---
 
 ## 1: Setting up R and RStudio
@@ -34,6 +34,15 @@ In this course, we will use the **ggplot2** library to create plots and visualiz
    ```{r}
    library(ggplot2)
    ```
+
+If you get an error saying that the package is not installed, you need to install it first.
+Installing a library only needs to be done once. Just type: `install.packages("ggplot2")`.
+
+As another example, try installing `deSolve`, a library for working with differential equations and dynamical systems.
+
+::: {.info}
+**Important:** You install a package only once, but you must load it every time you start a new R session. Also, note that package names are written in quotes when installing, but not when loading them with `library()`.
+:::
    
 ### 1.3 Creating variables and assigning values
 
@@ -51,13 +60,14 @@ Here:
 - `5` is the value stored in `x`
 - `<-` assigns the value to the variable
 
-To display `x` and check it just type:
+To display `x` and check that it was stored correctly, just type:
 
    ```{r}
     x
    ```
-   
-You can then use the variable in yourcalculations:
+R will print the value of `x` in the Console.
+
+You can then use the variable in your calculations:
 
    ```{r}
     x + 2
@@ -139,7 +149,7 @@ If you want to learn more about what a function does, you can open its documenta
 
 ---
 
-## 2: Accessing Elements in R
+## 2: Accessing elements in R
 
 In R, we can access (or extract) specific elements from objects such as **vectors**, **matrices**, and **data frames** using **square brackets** `[ ]`.
 
@@ -237,7 +247,7 @@ Functions help you:
      return(m * x + b)
    }
    ```
-### 3.3 Apply these functions to a sequence of values and store results.
+### 3.3 Apply these functions to a sequence of input values and store the results in appropriate data structures.
 
 For example, evaluate the functions over the interval \([-10, 10]\). To do so, first, we create a sequence of evenly spaced values:
 
@@ -304,7 +314,7 @@ Next, we apply each function to this sequence and store the results in data fram
 
 ---
 
-## 4: Using a For Loop
+## 4: Using a For loop
 
 A for loop is a way to repeat the same piece of code multiple times, changing a value each time it runs.
 
@@ -450,7 +460,7 @@ so the coefficients are `c(-1, 0, 1)`.
 Not all functions are polynomials. For more general functions, we cannot use `polyroot()`.  
 Instead, we use numerical methods to approximate roots.
 
-To find a root of this function in a given interval, we use the function uniroot().
+To find a root of this function in a given interval, we use the function `uniroot()`.
 This function searches for a value of $x$ where $f(x)=0$, within a specified interval.
 
 Consider the function
@@ -461,14 +471,14 @@ f(x) = e^x - 10 \cos(x).
 
 5.2.1. Define the function \( f(x) = e^x - 10 \cos(x) \)
    ```{r}
-   dx_dt <- function(x) {
+   non_polynomial_curve_f <- function(x) {
      exp(x) - 10 * cos(x)
    }
    ```
    
 5.2.2. Find a root in a given interval (for example, $[0, 2]$):
    ```{r}
-   root_f <- uniroot(dx_dt, interval = c(0, 2))$root
+   root_f <- uniroot(non_polynomial_curve_f, interval = c(0, 2))$root
    print(root_f)
    ```
 
@@ -479,9 +489,8 @@ f(x) = e^x - 10 \cos(x).
 5.2.2. Plot the function and highlight the root:
    ```{r}
    x_values <- seq(-2, 3, length.out = 100)
-   y_values <- exp(x_values) - 10 * cos(x_values)
    
-   non_polynomial_curve_df <- data.frame(x = x_values, y = y_values) 
+   non_polynomial_curve_df <- data.frame(x = x_values, y = non_polynomial_curve_f(x_values)) 
    
    ggplot(data = non_polynomial_curve_df, aes(x = x, y = y)) +
       geom_line(color = "blue") +
