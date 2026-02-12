@@ -4,12 +4,12 @@ subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETS
 author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
 date: "`r Sys.Date()`"
 output: 
-  pdf_document:
-    toc: true
   html_document:
     theme: united
     toc: true
     toc_float: true
+  pdf_document:
+    toc: true
 ---
 
 ## 1: Setting up R and RStudio
@@ -34,7 +34,36 @@ In this course, we will use the **ggplot2** library to create plots and visualiz
    ```{r}
    library(ggplot2)
    ```
-### 1.3 Creating a simple **vector**, **matrix**, and **data frame** in R and display their structure.
+   
+### 1.3 Creating variables and assigning values
+
+In R, we store values using **variables**.  
+A variable has a **name** and stores a **value** that can be used later.
+
+To assign a value to a variable, we use the assignment operator `<-`.
+
+   ```{r}
+    x <- 5
+   ```
+Here:
+
+- `x` is the variable name
+- `5` is the value stored in `x`
+- `<-` assigns the value to the variable
+
+To display `x` and check it just type:
+
+   ```{r}
+    x
+   ```
+   
+You can then use the variable in yourcalculations:
+
+   ```{r}
+    x + 2
+   ```
+   
+### 1.4 Creating other simple data structures: **vector**, **matrix**, and **data frame** in R.
 
 These are three of the most common data structures in R:
 
