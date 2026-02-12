@@ -4,15 +4,15 @@ subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETS
 author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
 date: "`r Sys.Date()`"
 output: 
-  pdf_document:
-    toc: true
   html_document:
     theme: united
     toc: true
     toc_float: true
+  pdf_document:
+    toc: true
 ---
 
-## 1: Setting up R and RStudio
+## 1: Getting started with R
 
 ### 1.1 Installing **R** and **RStudio** (if not already installed). 
 
@@ -149,7 +149,7 @@ If you want to learn more about what a function does, you can open its documenta
 
 ---
 
-## 2: Accessing elements in R
+## 2: Accessing elements of data structures in R
 
 In R, we can access (or extract) specific elements from objects such as **vectors**, **matrices**, and **data frames** using **square brackets** `[ ]`.
 
