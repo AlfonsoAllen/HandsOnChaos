@@ -11,9 +11,9 @@
 
 <meta name="author" content="Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro" />
 
-<meta name="date" content="2026-02-03" />
+<meta name="date" content="2026-02-19" />
 
-<title>1D-Continuous Dynamical Systems (Assignment Sheet 2)</title>
+<title>1D-Continuous Dynamical Systems (Assignment Sheet 1)</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1486,101 +1486,154 @@ border-radius: 0px;
 
 
 <h1 class="title toc-ignore">1D-Continuous Dynamical Systems (Assignment
-Sheet 2)</h1>
+Sheet 1)</h1>
 <h3 class="subtitle">Introduction To Chaos Applied To Systems, Processes
 And Products (ETSIDI, UPM)</h3>
 <h4 class="author">Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo
 Faleiro</h4>
-<h4 class="date">2026-02-03</h4>
+<h4 class="date">2026-02-19</h4>
 
 </div>
 
 
-<div id="exercise-1" class="section level2">
-<h2>Exercise 1</h2>
-<p>Consider the system</p>
-<p><span class="math display">\[\dot{x} = x^2 - 1\]</span></p>
-<p>Solve and plot <span class="math inline">\(\dot{x}\)</span> versus
-<span class="math inline">\(t\)</span> for:</p>
+<div id="physical-motivation" class="section level2">
+<h2>1. Physical motivation</h2>
+<p>Many physical and engineering systems evolve toward an equilibrium
+due to a balance between restoring effects and dissipation. When
+dissipation is strong, the system response is often well described by a
+first-order differential equation, where inertia can be neglected and
+the state relaxes directly toward equilibrium.</p>
+<p>In this assignment, we consider a simple model of this type:</p>
+<p><span class="math inline">\(\frac{dx}{dt}=\dot{x}=-ax-bx^3\)</span>,</p>
+<p>where:</p>
 <ul>
-<li><strong>Case a</strong>: <span class="math inline">\(x(0) &lt;
--1\)</span></li>
-<li><strong>Case b</strong>: <span class="math inline">\(-1 &lt; x(0)
-&lt; 1\)</span></li>
-<li><strong>Case c</strong>: <span class="math inline">\(x(0) &gt;
-1\)</span></li>
+<li><span class="math inline">\(x(t)\)</span> is the displacement,</li>
+<li><span class="math inline">\(a&gt;0\)</span> is the linear
+stiffness-to-damping ratio,</li>
+<li><span class="math inline">\(b&gt;0\)</span> represents a nonlinear
+stiffening effect.</li>
 </ul>
-<div class="info">
-<p><strong>Question:</strong> What can be concluded about the points
-<span class="math inline">\(x=1\)</span> and <span class="math inline">\(x=-1\)</span>?</p>
-</div>
-<hr />
-</div>
-<div id="exercise-2" class="section level2">
-<h2>Exercise 2</h2>
-<p>Given the system <span class="math display">\[\dot{x} = 3x -
-x^3\]</span></p>
+<p>The term <span class="math inline">\(-ax\)</span> represents a linear
+restoring effect combined with dissipation, which governs the behavior
+close to equilibrium. The term <span class="math inline">\(-bx^3\)</span> represents a nonlinear correction
+that becomes important for larger deviations and modifies the system
+response away from equilibrium.</p>
+<p>Although this equation can describe a mass–spring system in a highly
+viscous medium, similar mathematical models appear in many applied
+contexts:</p>
 <ul>
-<li>Find all the <strong>fixed points</strong>.</li>
-<li>Analyze their <strong>stability</strong>.</li>
-<li>Solve <strong>numerically</strong> with <span class="math inline">\(x(0) = 5\)</span> and plot for large <span class="math inline">\(t\)</span>.</li>
-<li>Animate the solution.</li>
+<li><p><strong>Mechanical systems</strong>: Structures or components
+with large deformations, compliant mechanisms, or materials that stiffen
+as deformation increases often exhibit nonlinear restoring forces.
+Strong damping can arise in soft materials, polymers, or motion in
+fluids.</p></li>
+<li><p><strong>Thermal systems</strong>: The variable <span class="math inline">\(x\)</span> may represent a temperature difference
+from equilibrium, where linear heat loss dominates near equilibrium but
+nonlinear effects become important at larger temperature
+differences.</p></li>
+<li><p><strong>Electrical systems</strong>: In resistive–capacitive
+circuits with nonlinear elements (e.g. saturation effects), the voltage
+can relax toward equilibrium following a nonlinear first-order
+equation.</p></li>
+<li><p><strong>Control and biological systems</strong>: Feedback
+mechanisms often act linearly for small deviations but become nonlinear
+for large signals, leading to equations with higher-order terms similar
+to <span class="math inline">\(x^3\)</span>.</p></li>
 </ul>
-<hr />
 </div>
-<div id="exercise-3" class="section level2">
-<h2>Exercise 3</h2>
-<p>The Logistic Flow is defined as:</p>
-<p><span class="math display">\[\dot{x} = \mu x (1 - x)\]</span> for
-<span class="math inline">\(\mu &gt; 0\)</span>.</p>
+<div id="learning-focus" class="section level2">
+<h2>2. Learning focus</h2>
+<p>The goal of this assignment is not to model a specific device in
+detail, but to:</p>
 <ul>
-<li>Find <strong>fixed points</strong> as a function of <span class="math inline">\(\mu\)</span>.</li>
-<li>Perform a <strong>stability analysis</strong>.</li>
-<li>Solve <strong>numerically</strong> with <span class="math inline">\(x(0) = 0.5\)</span> and animate the
-trajectory.</li>
+<li>identify equilibrium points,</li>
+<li>study their stability using linearization,</li>
+<li>and understand how nonlinear terms influence the system response
+beyond the immediate neighborhood of equilibrium.</li>
 </ul>
-<hr />
 </div>
-<div id="exercise-4" class="section level2">
-<h2>Exercise 4</h2>
-<p>Solve analytically the <strong>Logistic Flow</strong> (Exercise 3)
-and compare it with the numerical solution using <code>ode45</code>
-for:</p>
+<div id="fixed-points" class="section level2">
+<h2>3. Fixed points</h2>
+<p>3.1 3.1 Find analytically and numerically all fixed points <span class="math inline">\(x^*\)</span> of the system (i.e., values such that
+<span class="math inline">\(\dot{x}=0\)</span>).</p>
+<p>3.2 Give a brief physical interpretation of the equilibrium
+configuration(s).</p>
+</div>
+<div id="linear-stability-analysis" class="section level2">
+<h2>4. Linear stability analysis</h2>
+<p>4.1 4.1 Compute the derivative <span class="math inline">\(f&#39;(x)\)</span> of the right-hand side
+analytically, and evaluate it numerically at each fixed point. 4.2
+Determine the stability (stable / unstable) of each fixed point.</p>
+</div>
+<div id="numerical-integration" class="section level2">
+<h2>5. Numerical integration</h2>
+<p>5.1 Choose <span class="math inline">\(a=1\)</span>, <span class="math inline">\(b=1\)</span> and numerically integrate the system
+for at least three different initial conditions:</p>
 <ul>
-<li><span class="math inline">\(x(0) = 0.1\)</span>, with <span class="math inline">\(\mu = 2\)</span>.</li>
+<li><p>one close to equilibrium,</p></li>
+<li><p>one with moderate displacement,</p></li>
+<li><p>one with large displacement.</p></li>
 </ul>
-<hr />
+<p>5.2 Plot <span class="math inline">\(x(t)\)</span> for each case.</p>
 </div>
-<div id="exercise-5" class="section level2">
-<h2>Exercise 5</h2>
-<p>For the following systems, <strong>plot</strong> <span class="math inline">\(\dot{x}\)</span> vs <span class="math inline">\(x\)</span>, find <strong>fixed points</strong>,
-and analyze <strong>stability</strong>:</p>
+<div id="conceptual-test-questions." class="section level2">
+<h2>6. Conceptual test questions.</h2>
+<p>For each question, briefly justify your choice in one sentence.</p>
+<p>6.1 For the nonlinear system <span class="math inline">\(\dot{x}=-x-x^3\)</span>, consider its linearized
+version near equilibrium: <span class="math inline">\(\dot{x}=-x\)</span>. Which statement is
+correct?</p>
 <ul>
-<li><span class="math inline">\(\dot{x} = \sin(x) e^{-x}\)</span></li>
+<li>A. The nonlinear system decays faster than the linear system for all
+values of <span class="math inline">\(x\)</span>.</li>
+<li>B. The nonlinear system behaves like the linear system only far from
+equilibrium.</li>
+<li>C. Near the equilibrium, both systems show the same exponential
+decay rate.</li>
+<li>D. The nonlinear term changes the sign of the decay rate near
+equilibrium.</li>
+</ul>
+<p>6.2 Why does the nonlinear term <span class="math inline">\(-x^3\)</span> not affect the local stability of
+the equilibrium at <span class="math inline">\(x=0\)</span>?</p>
+<ul>
+<li>A. Because nonlinear terms never affect stability.</li>
+<li>B. Because the nonlinear term is much smaller than the linear term
+near equilibrium.</li>
+<li>C. Because the nonlinear term does not affect the linearization near
+equilibrium.</li>
+<li>D. Because the nonlinear term changes the equilibrium location.</li>
+</ul>
+<p>6.3 What is the main effect of the nonlinear term <span class="math inline">\(-x^3\)</span> on the system dynamics?</p>
+<ul>
+<li>A. It changes the stability of the equilibrium.</li>
+<li>B. It speeds up the decay for large displacements.</li>
+<li>C. It introduces oscillations in the response.</li>
+<li>D. It creates additional equilibria.</li>
+</ul>
+</div>
+<div id="exploratory-exercise-optional" class="section level2">
+<h2>7. Exploratory exercise (optional)</h2>
+<p>For the following systems, plot <span class="math inline">\(\dot{x}\)</span> as a function of <span class="math inline">\(x\)</span>, identify all fixed points (if any),
+and analyze their stability using graphical arguments.</p>
+<ul>
+<li><span class="math inline">\(\dot{x} = \sin(x)\,e^{-x}\)</span></li>
 <li><span class="math inline">\(\dot{x} = e^{-x} -
 10\cos(x)\)</span></li>
 <li><span class="math inline">\(\dot{x} = 1 +
 \frac{\cos(x)}{2}\)</span></li>
 </ul>
-<hr />
+<p>Briefly comment on the qualitative behavior of the solutions.</p>
 </div>
-<div id="exercise-6" class="section level2">
-<h2>Exercise 6</h2>
-<p>Consider an <strong>electrical circuit</strong> with a <strong>linear
-resistor <span class="math inline">\(R\)</span></strong> in series with
-<strong>capacitor <span class="math inline">\(C\)</span></strong> and
-<strong>battery</strong> with constant voltage <strong><span class="math inline">\(V\)</span></strong>. Let <span class="math inline">\(Q(t)\)</span> denote the charge of the capacitor
-at time <span class="math inline">\(t \geq 0\)</span>.</p>
+<div id="submission-instructions-optional" class="section level2">
+<h2>8. Submission instructions (optional)</h2>
 <ul>
-<li>Plot <span class="math inline">\(Q(t)\)</span> when the capacitor
-starts with no charge.</li>
+<li>Create a script named <code>assignment_1D_continuous_DS.R</code>
+containing all the code used in this assignment.</li>
+<li>Include brief comments in the R script explaining your steps and
+interpreting the results.</li>
+<li>Make sure the script runs from start to finish without errors. All
+figures should be generated automatically when the script is run.</li>
+<li>Submit the R script by email.</li>
 </ul>
-<div class="info">
-<p><strong>Question:</strong> What changes if the resistor is nonlinear,
-that is, if the voltage across the resistor depends on the electric
-current? Try the relation: <span class="math display">\[V(I) = R
-\tanh(I)\]</span></p>
-</div>
 </div>
 
 

@@ -4,13 +4,13 @@ subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETS
 author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
 date: "`r Sys.Date()`"
 output: 
-  pdf_document:
-    toc: true
-    #number_sections: true
   html_document:
     theme: united
     toc: true
     toc_float: true
+    #number_sections: true
+  pdf_document:
+    toc: true
     #number_sections: true
   word_document:
     toc: true
