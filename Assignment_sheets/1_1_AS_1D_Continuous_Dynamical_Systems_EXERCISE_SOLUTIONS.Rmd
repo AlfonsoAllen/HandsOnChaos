@@ -1,0 +1,307 @@
+---
+title: "1D-Continuous Dynamical Systems (Assignment Sheet 1)"
+subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETSIDI, UPM)"
+author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+    toc: true
+    #number_sections: true
+  html_document:
+    theme: united
+    toc: true
+    toc_float: true
+    #number_sections: true
+  word_document:
+    toc: true
+    #number_sections: true
+---
+
+## 1. Physical motivation
+
+Many physical and engineering systems evolve toward an equilibrium due to a balance between restoring effects and dissipation. When dissipation is strong, the system response is often well described by a first-order differential equation, where inertia can be neglected and the state relaxes directly toward equilibrium.
+
+In this assignment, we consider a simple model of this type:
+
+$\frac{dx}{dt}=\dot{x}=-ax-bx^3$,
+
+where:
+
+- $x(t)$ is the displacement,
+- $a>0$ is the linear stiffness-to-damping ratio,
+- $b>0$ represents a nonlinear stiffening effect.
+
+The term $-ax$ represents a linear restoring effect combined with dissipation, which governs the behavior close to equilibrium. The term $-bx^3$ represents a nonlinear correction that becomes important for larger deviations and modifies the system response away from equilibrium.
+
+Although this equation can describe a mass–spring system in a highly viscous medium, similar mathematical models appear in many applied contexts:
+
+- **Mechanical systems**: Structures or components with large deformations, compliant mechanisms, or materials that stiffen as deformation increases often exhibit nonlinear restoring forces. Strong damping can arise in soft materials, polymers, or motion in fluids.
+
+- **Thermal systems**: The variable $x$ may represent a temperature difference from equilibrium, where linear heat loss dominates near equilibrium but nonlinear effects become important at larger temperature differences.
+
+- **Electrical systems**: In resistive–capacitive circuits with nonlinear elements (e.g. saturation effects), the voltage can relax toward equilibrium following a nonlinear first-order equation.
+
+- **Control and biological systems**: Feedback mechanisms often act linearly for small deviations but become nonlinear for large signals, leading to equations with higher-order terms similar to $x^3$.
+
+
+## 2. Learning focus
+
+The goal of this assignment is not to model a specific device in detail, but to:
+
+- identify equilibrium points,
+- study their stability using linearization,
+- and understand how nonlinear terms influence the system response beyond the immediate neighborhood of equilibrium.
+
+## 3. Fixed points
+
+3.1 Find analytically and numerically all fixed points $x^*$ of the system (i.e., values such that $\dot{x}=0$).
+
+```{r}
+
+# --- RHS of the DS
+
+# f(x) = dx/dt
+f <- function(x, a = 1, b = 1) {
+  -a*x - b * x^3
+}
+
+# --- Parameters ---
+
+a <- 1
+b <- 1
+
+# Create a grid of x values to plot f(x)
+x_grid <- seq(-5, 5, by = 0.1)
+
+data_f <- data.frame(
+  x = x_grid,
+  dxdt = f(x_grid)
+)
+
+# Plot f(x) = dx/dt
+ggplot(data = data_f, aes(x = x, y = dxdt)) +
+  
+  # The curve f(N)
+  geom_line(color = "blue") +
+  
+  # The line y = 0 (where fixed points happen)
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  
+  # Mark the fixed points we expect: 0
+  geom_vline(xintercept = c(0, 0), linetype = "dotted") +
+  
+  # Labels
+  xlab("x") +
+  ylab("f(x) = dx/dt") +
+  ggtitle("Fixed points are where f(x) crosses 0") +
+  
+  theme_bw()
+
+
+# Finding polynomical roots
+
+root0 <- polyroot(c(0, -1, 0, -1))
+root0
+
+# Finding nonlinear roots
+
+root0_NL <- uniroot(f, interval = c(-1, 1))$root
+root0_NL
+
+```
+
+3.2 Give a brief physical interpretation of the equilibrium configuration(s).
+
+## 4. Linear stability analysis
+
+4.1 Compute the derivative $f'(x)$ of the right-hand side analytically, and evaluate it numerically at each fixed point.
+
+```{r}
+fprime <- function(x, a, b) -a - 3 * b * x^2
+
+x_star <- 0
+fprime(x_star, a, b)
+```
+
+4.2 Determine the stability (stable / unstable) of each fixed point.
+
+```{r}
+x_grid <- seq(-1, 1, by = 0.1)
+
+data_f <- data.frame(
+  x = x_grid,
+  dxdt = f(x_grid)
+)
+
+tangent <- function(x, xstar, a = 1, b = 1) {
+  f(xstar, a, b) + fprime(xstar, a, b) * (x - xstar)
+}
+
+data_tan0 <- data.frame(x = x_grid, y = tangent(x_grid, root0_NL), which = "tangent at x* ~ 0")
+
+ggplot(data_f, aes(x = x, y = dxdt)) +
+  geom_line(color = "blue") +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_point(data = data.frame(N = root0_NL, dNdt = 0),
+             aes(x = N, y = dNdt), size = 3) +
+  geom_line(data = data_tan0, aes(x = x, y = y), linetype = "dotted") +
+  xlab("x") +
+  ylab("f(x) = dx/dt") +
+  ggtitle("Linear stability: slope of f(x) at the fixed points") +
+  theme_bw()
+
+```
+
+## 5. Numerical integration
+
+5.1 Choose $a=1$, $b=1$ and numerically integrate the system for at least three different initial conditions:
+
+- one close to equilibrium,
+- one with moderate displacement,
+- one with large displacement.
+
+```{r}
+library(deSolve)
+
+x_ode <- function(t, state, parameters) {
+  
+  # Population size
+  x <- state["x"]
+  
+  # Parameters
+  a <- parameters["a"]
+  b <- parameters["b"]
+  
+  # Logistic growth equation
+  dx <- -a*x - b*x^3
+  
+  # Return the derivative
+  list(c(dx))
+}
+
+# Growth rate
+a <- 1
+
+# Carrying capacity
+b <- 1
+
+# one close to equilibrium,
+
+x0_1 <- 0.01
+
+# one with moderate displacement,
+x0_2 <- 1
+# one with large displacement.
+x0_3 <- 10
+
+# Time points where the solution is computed
+times <- seq(0, 5, by = 0.1)
+
+# Numerical integration close to equilibrium
+solution_1 <- ode(
+  y = c(x = x0_1),
+  times = times,
+  func = x_ode,
+  parms = c(a = a, b = b)
+)
+
+# Convert output to a data frame
+solution_1 <- as.data.frame(solution_1)
+
+# Numerical integration with moderate displacement
+solution_2 <- ode(
+  y = c(x = x0_2),
+  times = times,
+  func = x_ode,
+  parms = c(a = a, b = b)
+)
+
+# Convert output to a data frame
+solution_2 <- as.data.frame(solution_2)
+
+# Numerical integration with large displacement
+solution_3 <- ode(
+  y = c(x = x0_3),
+  times = times,
+  func = x_ode,
+  parms = c(a = a, b = b)
+)
+
+# Convert output to a data frame
+solution_3 <- as.data.frame(solution_3)
+
+```
+
+5.2 Plot $x(t)$ for each case.
+
+```{r}
+# Add a label so we can tell the curves apart
+solution_1$case <- "x0 = 0.01"
+solution_2$case <- "x0 = 1"
+solution_3$case <- "x0 = 10"
+
+# Combine all solutions into one data frame
+all_solutions <- rbind(solution_1, solution_2, solution_3)
+
+# Create the plot
+ggplot(data = all_solutions, aes(x = time, y = x, color = case)) +
+  
+  # Draw one line for each initial condition
+  geom_line() +
+  
+  # Show the carrying capacity K
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  
+  # Label the axes
+  xlab("Time") +
+  ylab("x(t)") +
+  
+  # Title
+  ggtitle("Time evolution of x(t) for different initial conditions") +
+  
+  # Clean theme
+  theme_bw()
+```
+
+## 6. Conceptual test questions.
+
+For each question, briefly justify your choice in one sentence.
+
+6.1 For the nonlinear system $\dot{x}=-x-x^3$, consider its linearized version near equilibrium: $\dot{x}=-x$.
+Which statement is correct?
+
+- The nonlinear system decays faster than the linear system for all values of $x$.
+- The nonlinear system behaves like the linear system only far from equilibrium.
+- Near the equilibrium, both systems show the same exponential decay rate.
+- The nonlinear term changes the sign of the decay rate near equilibrium.
+
+6.2 Why does the nonlinear term $-x^3$ not affect the local stability of the equilibrium at $x=0$?
+
+- Because nonlinear terms never affect stability.
+- Because the nonlinear term is much smaller than the linear term near equilibrium.
+- Because the nonlinear term does not affect the linearization near equilibrium.
+- Because the nonlinear term changes the equilibrium location.
+
+6.3 What is the main effect of the nonlinear term $-x^3$ on the system dynamics?
+
+- It changes the stability of the equilibrium.
+- It speeds up the decay for large displacements.
+- It introduces oscillations in the response.
+- It creates additional equilibria.
+
+## 7. Exploratory exercise (optional)
+
+For the following systems, plot $\dot{x}$ as a function of $x$, identify all fixed points (if any), and analyze their stability using graphical arguments.
+
+- $\dot{x} = \sin(x)\,e^{-x}$
+- $\dot{x} = e^{-x} - 10\cos(x)$
+- $\dot{x} = 1 + \frac{\cos(x)}{2}$
+
+Briefly comment on the qualitative behavior of the solutions.
+
+## 8. Submission instructions (optional)
+
+- Create a script named `assignment_1D_continuous_DS.R` containing all the code used in this assignment.
+- Include brief comments in the R script explaining your steps and interpreting the results.
+- Make sure the script runs from start to finish without errors. All figures should be generated automatically when the script is run.
+- Submit the R script by email.
