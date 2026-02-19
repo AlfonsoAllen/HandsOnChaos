@@ -4,13 +4,13 @@ subtitle: "Introduction To Chaos Applied To Systems, Processes And Products (ETS
 author: "Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro"
 date: "`r Sys.Date()`"
 output: 
-  pdf_document:
-    toc: true
-    #number_sections: true
   html_document:
     theme: united
     toc: true
     toc_float: true
+    #number_sections: true
+  pdf_document:
+    toc: true
     #number_sections: true
   word_document:
     toc: true
@@ -391,7 +391,7 @@ ggplot(data = data_f, aes(x = N, y = dNdt)) +
 
 For a 1D ODE of the form
 
-$\frac{dN}{dt}=\dot{N}=f(N)$.,
+$\frac{dN}{dt}=\dot{N}=f(N)$,
 
 a fixed point $N^*$ is linearly stable if the slope $f'(N^*)<0$, and unstable if $f'(N^*)>0$. (If 
 $f'(N^*)=0$, linearization is inconclusive.)
@@ -524,7 +524,7 @@ where $\varepsilon(t)$ is small. The key question is whether this perturbation g
 
 Near the fixed point, the function $f(N)$ can be approximated by its linear (first-order) Taylor expansion:
 
-$f(N^* +\varepsilon(t))\approx f(N^*) +f'(N^*)\cdot \varepsilon$.
+$\frac{d}{dt}\left( N^*+\varepsilon \right)=f(N^* +\varepsilon(t)) \rightarrow 0+\frac{d \varepsilon}{dt}=f(N^* +\varepsilon(t))\approx f(N^*) +f'(N^*)\cdot \varepsilon$.
 
 Since $f(N^*)=0$, the equation becomes:
 

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo Faleiro" />
 
-<meta name="date" content="2026-02-17" />
+<meta name="date" content="2026-02-19" />
 
 <title>1D-Continuous Dynamical Systems (Assignment Sheet 1)</title>
 
@@ -1491,7 +1491,7 @@ Sheet 1)</h1>
 And Products (ETSIDI, UPM)</h3>
 <h4 class="author">Alfonso Allen-Perkins, Juan Carlos Bueno and Eduardo
 Faleiro</h4>
-<h4 class="date">2026-02-17</h4>
+<h4 class="date">2026-02-19</h4>
 
 </div>
 
@@ -1501,7 +1501,7 @@ Faleiro</h4>
 <p>The logistic growth model describes how a population grows when there
 are limited resources. A common form of the logistic growth model is</p>
 <p><span class="math inline">\(\frac{dN}{dt}=\dot{N}=rN \cdot
-\left(1−\frac{N}{K}\right)\)</span>.</p>
+\left(1-\frac{N}{K}\right)\)</span>.</p>
 <p>Here, <span class="math inline">\(N(t)\)</span> represents the
 population size at time <span class="math inline">\(t\)</span>. The
 parameter <span class="math inline">\(r&gt;0\)</span> is the growth
@@ -1528,10 +1528,10 @@ library(ggplot2)</code></pre>
 </div>
 <div id="step-1.2-define-the-logistic-ode" class="section level3">
 <h3>Step 1.2: Define the logistic ODE</h3>
-<p>We code the equation<br />
-<span class="math display">\[
-\frac{dN}{dt} = rN\left(1-\frac{N}{K}\right)
-\]</span> as a function that returns <span class="math inline">\(dN/dt\)</span>.</p>
+<p>We code the equation</p>
+<p><span class="math inline">\(\frac{dN}{dt} = r
+N\cdot\left(1-\frac{N}{K}\right)\)</span></p>
+<p>as a function that returns <span class="math inline">\(dN/dt\)</span>.</p>
 <pre class="r"><code>logistic_ode &lt;- function(t, state, parameters) {
   
   # Population size
@@ -1548,8 +1548,8 @@ library(ggplot2)</code></pre>
   list(c(dN))
 }</code></pre>
 </div>
-<div id="step-1.3-choose-parameters-initial-condition-and-time-grid" class="section level3">
-<h3>Step 1.3: Choose parameters, initial condition, and time grid</h3>
+<div id="step-1.3-choose-parameters-and-initial-condition" class="section level3">
+<h3>Step 1.3: Choose parameters and initial condition</h3>
 <pre class="r"><code># Growth rate
 r &lt;- 0.4
 
@@ -1557,9 +1557,7 @@ r &lt;- 0.4
 K &lt;- 100
 
 # Initial population size
-N0 &lt;- 10
-
-times &lt;- seq(0, 30, by = 0.1)</code></pre>
+N0 &lt;- 10</code></pre>
 </div>
 <div id="step-1.4-define-the-time-interval" class="section level3">
 <h3>Step 1.4: Define the time interval</h3>
@@ -1766,12 +1764,12 @@ ggplot(data = all_r_solutions, aes(x = time, y = N, color = case)) +
 <div id="fixed-points-of-the-logistic-growth-model" class="section level2">
 <h2>2. Fixed points of the logistic growth model</h2>
 <p>For the continuous-time logistic model:</p>
-<p><span class="math inline">\(\frac{dN}{dt}=\dot{N}=rN \cdot (1−K \cdot
+<p><span class="math inline">\(\frac{dN}{dt}=\dot{N}=rN \cdot (1-K \cdot
 N)\)</span>,</p>
 <p>a fixed point (also called an equilibrium) is a value <span class="math inline">\(N^*\)</span> where <span class="math inline">\(\frac{dN}{dt}=\dot{N}=0\)</span>. We can find
 these graphically and numerically.</p>
-<div id="step-2.1-define-the-growth-function-fnrn-cdot-1k-cdot-n" class="section level3">
-<h3>Step 2.1: Define the growth function <span class="math inline">\(f(N)=rN \cdot (1−K \cdot N)\)</span></h3>
+<div id="step-2.1-define-the-growth-function-fnrn-cdot-1-k-cdot-n" class="section level3">
+<h3>Step 2.1: Define the growth function <span class="math inline">\(f(N)=rN \cdot (1-K \cdot N)\)</span></h3>
 <pre class="r"><code># f(N) = dN/dt
 f &lt;- function(N) {
   r * N * (1 - N / K)
@@ -1862,12 +1860,12 @@ ggplot(data = data_f, aes(x = N, y = dNdt)) +
 <h2>3. Linear stability analysis of the fixed points of the logistic
 growth model</h2>
 <p>For a 1D ODE of the form</p>
-<p><span class="math inline">\(\frac{dN}{dt}=\dot{N}=f(N)\)</span>.,</p>
+<p><span class="math inline">\(\frac{dN}{dt}=\dot{N}=f(N)\)</span>,</p>
 <p>a fixed point <span class="math inline">\(N^*\)</span> is linearly
 stable if the slope <span class="math inline">\(f&#39;(N^*)&lt;0\)</span>, and unstable if <span class="math inline">\(f&#39;(N^*)&gt;0\)</span>. (If <span class="math inline">\(f&#39;(N^*)=0\)</span>, linearization is
 inconclusive.)</p>
 <p>For the logistic model, <span class="math inline">\(f(N)=rN \cdot
-\left(1−\frac{N}{K}\right)\)</span>.</p>
+\left(1-\frac{N}{K}\right)\)</span>.</p>
 <div id="step-3.1-define-fn-and-its-derivative-fn" class="section level3">
 <h3>Step 3.1: Define <span class="math inline">\(f(N)\)</span> and its
 derivative <span class="math inline">\(f&#39;(N)\)</span></h3>
@@ -1881,10 +1879,9 @@ fprime &lt;- function(N) {
   r * (1 - 2 * N / K)
 }</code></pre>
 </div>
-</div>
-<div id="step-3.2-linear-stability-numerically-evaluate-the-slope-at-the-fixed-points" class="section level2">
-<h2>Step 3.2: Linear stability numerically (evaluate the slope at the
-fixed points)</h2>
+<div id="step-3.2-linear-stability-numerically-evaluate-the-slope-at-the-fixed-points" class="section level3">
+<h3>Step 3.2: Linear stability numerically (evaluate the slope at the
+fixed points)</h3>
 <p>Assume you already computed <code>root0</code> and <code>rootK</code>
 with <code>uniroot()</code> (as in the previous step).</p>
 <pre class="r"><code># Slopes at the fixed points
@@ -1905,9 +1902,9 @@ positive → <strong>unstable</strong><br />
 negative → <strong>stable</strong></li>
 </ul>
 </div>
-<div id="step-3.3-graphical-stability-plot-fn-and-show-the-tangent-slope-at-the-fixed-points" class="section level2">
-<h2>Step 3.3: Graphical stability (plot <span class="math inline">\(f(N)\)</span> and show the tangent slope at the
-fixed points)</h2>
+<div id="step-3.3-graphical-stability-plot-fn-and-show-the-tangent-slope-at-the-fixed-points" class="section level3">
+<h3>Step 3.3: Graphical stability (plot <span class="math inline">\(f(N)\)</span> and show the tangent slope at the
+fixed points)</h3>
 <p>This plot shows the curve <span class="math inline">\(f(N)\)</span>,
 the line <span class="math inline">\(y=0\)</span>, and the
 <strong>tangent lines</strong> at each fixed point.</p>
@@ -1947,9 +1944,9 @@ line:</p>
 <li>tangent slope <strong>downward</strong> (negative) → stable</li>
 </ul>
 </div>
-<div id="step-3.4-numerical-derivative-finite-difference-as-a-no-calculus-check" class="section level2">
-<h2>Step 3.4: Numerical derivative (finite difference) as a
-“no-calculus” check</h2>
+<div id="step-3.4-numerical-derivative-finite-difference-as-a-no-calculus-check" class="section level3">
+<h3>Step 3.4: Numerical derivative (finite difference) as a
+“no-calculus” check</h3>
 <p>This estimates <span class="math inline">\(f&#39;(N)\)</span> using
 nearby values of <span class="math inline">\(f\)</span>.</p>
 <pre class="r"><code># Numerical derivative of f using a small step h
@@ -1967,8 +1964,8 @@ num_slope0</code></pre>
 <p>This should agree with <code>fprime(root0)</code> and
 <code>fprime(rootK)</code> (up to small numerical error).</p>
 </div>
-<div id="step-3.5-put-results-in-a-simple-table" class="section level2">
-<h2>Step 3.5: Put results in a simple table</h2>
+<div id="step-3.5-put-results-in-a-simple-table" class="section level3">
+<h3>Step 3.5: Put results in a simple table</h3>
 <pre class="r"><code>results &lt;- data.frame(
   fixed_point = c(&quot;N* near 0&quot;, &quot;N* near K&quot;),
   Nstar = c(root0, rootK),
@@ -1980,8 +1977,10 @@ results</code></pre>
 <pre><code>##   fixed_point    Nstar slope_exact slope_numeric
 ## 1   N* near 0  0.00000   0.4000000     0.4000000
 ## 2   N* near K 99.99999  -0.3999999    -0.3999999</code></pre>
-<div id="a-note-on-the-linear-stability-of-fixed-points" class="section level3">
-<h3>A note on the linear stability of fixed points</h3>
+</div>
+</div>
+<div id="a-note-on-the-linear-stability-of-fixed-points" class="section level2">
+<h2>A note on the linear stability of fixed points</h2>
 <p>Consider a one-dimensional dynamical system of the form</p>
 <p><span class="math inline">\(\frac{dN}{dt}=f(N)\)</span>,</p>
 <p>and let <span class="math inline">\(N^*\)</span> be a fixed point,
@@ -1995,8 +1994,10 @@ The key question is whether this perturbation grows or shrinks over
 time.</p>
 <p>Near the fixed point, the function <span class="math inline">\(f(N)\)</span> can be approximated by its linear
 (first-order) Taylor expansion:</p>
-<p><span class="math inline">\(f(N^* +\varepsilon(t))\approx f(N^*)
-+f&#39;(N^*)\cdot \varepsilon\)</span>.</p>
+<p><span class="math inline">\(\frac{d}{dt}\left( N^*+\varepsilon
+\right)=f(N^* +\varepsilon(t)) \rightarrow 0+\frac{d
+\varepsilon}{dt}=f(N^* +\varepsilon(t))\approx f(N^*) +f&#39;(N^*)\cdot
+\varepsilon\)</span>.</p>
 <p>Since <span class="math inline">\(f(N^*)=0\)</span>, the equation
 becomes:</p>
 <p><span class="math inline">\(\frac{d\varepsilon}{dt}\approx
@@ -2010,7 +2011,7 @@ e^{f&#39;(N^*)\cdot t}\)</span>.</p>
 exponential term decays to zero as time increases, and the perturbation
 <span class="math inline">\(\varepsilon(t)\)</span> becomes smaller. In
 this case, trajectories return to the fixed point, and <span class="math inline">\(N^*\)</span> is linearly stable.</p></li>
-<li><p>If <span class="math inline">\(f&#39;(N^*)&lt;0\)</span>, the
+<li><p>If <span class="math inline">\(f&#39;(N^*)&gt;0\)</span>, the
 exponential term grows with time, and the perturbation <span class="math inline">\(\varepsilon(t)\)</span> becomes larger. In this
 case, trajectories move away from the fixed point, and <span class="math inline">\(N^*\)</span> is linearly unstable.</p></li>
 </ul>
@@ -2020,14 +2021,13 @@ point, so small deviations are pushed back toward equilibrium. When
 positive, and small deviations are amplified instead.</p>
 <p>For the logistic growth model,</p>
 <p><span class="math inline">\(f(N)=rN \cdot
-\left(1−\frac{N}{K}\right)\)</span>,</p>
+\left(1-\frac{N}{K}\right)\)</span>,</p>
 <p><span class="math inline">\(f&#39;(N)=r \cdot
-\left(1−\frac{2N}{K}\right)\)</span>.</p>
+\left(1-\frac{2N}{K}\right)\)</span>.</p>
 <p>The fixed point <span class="math inline">\(N^*=0\)</span> satisfies
-<span class="math inline">\(f&#39;((0)=r&gt;0\)</span> and is therefore
-unstable, while the fixed point <span class="math inline">\(N^*=K\)</span> satisfies <span class="math inline">\(f&#39;(K)=−r&lt;0\)</span> and is therefore
+<span class="math inline">\(f&#39;(0)=r&gt;0\)</span> and is therefore
+unstable, while the fixed point <span class="math inline">\(N^*=K\)</span> satisfies <span class="math inline">\(f&#39;(K)=-r&lt;0\)</span> and is therefore
 stable.</p>
-</div>
 </div>
 
 
